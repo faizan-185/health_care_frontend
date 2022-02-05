@@ -1,9 +1,12 @@
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:health_care/config/dimensions.dart';
 import 'package:health_care/config/styles.dart';
+import 'package:health_care/services/api_funtions/register_functions.dart';
+import 'package:health_care/widgets/snackbars.dart';
 import 'package:health_care/widgets/verido-form-field.dart';
 import 'package:health_care/widgets/verido-primary-button.dart';
 
@@ -39,7 +42,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
           Text(
             "Register Now",
-            style: secondaryBigHeadingTextStyle,
+            style: bigHeadingPrimaryTextStyle,
           ),
           SizedBox(
             height: screenSize.height*0.07,
@@ -59,13 +62,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 5,
                     ),
                     TextFormField(
-                      controller: _emailController,
+                      controller: _nameController,
+                      validator: fullNameValidator,
                       keyboardType: getKeyboardType(
-                          inputType: VeridoInputType.email),
+                          inputType: VeridoInputType.text),
                       style: kFormTextStyle,
-                      validator: emailValidator,
                       decoration: veridoInputDecoration(
-                          inputType: VeridoInputType.email,
+                          inputType: VeridoInputType.text,
                           hint: "abcd xyz"),
                     ),
                     SizedBox(
@@ -209,7 +212,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ],
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      if(_formKey.currentState?.validate() == true)
+                        {
+                          register(_nameController.text, _emailController.text, _passwordController.text)
+                              .then((response) {
+                            var data = jsonDecode(response.body);
+                            if(response.statusCode==200)
+                            {
+                              print(data);
+                            }
+                            else
+                            {
+                              print(data['message']);
+                              ScaffoldMessenger.of(context).showSnackBar(snackBarError(data['message']));
+                            }
+                          }
+                          );
+                        }
+                    },
                   ),
                 ),
                 SizedBox(
