@@ -7,6 +7,7 @@ import 'package:health_care/config/dimensions.dart';
 import 'package:health_care/config/styles.dart';
 import 'package:health_care/widgets/verido-form-field.dart';
 import 'package:health_care/widgets/verido-primary-button.dart';
+import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);

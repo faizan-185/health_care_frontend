@@ -12,7 +12,11 @@ class Routes {
   static Map<String, WidgetBuilder> getRoute() {
     return <String, WidgetBuilder>{
       '/': (_) => SplashScreen(),
-      '/HomePage': (_) => HomeScreen(),
+      '/HomeScreen': (_) => HomeScreen(),
+      '/ResetPasswordScreen': (_) => ResetPasswordScreen(),
+      '/OptScreen': (_) => OtpVerification(),
+      '/RegisterScreen': (_) => RegisterScreen(),
+      '/LoginScreen': (_) => LoginScreen()
     };
   }
 
