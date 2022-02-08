@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:health_care/config/data_classes.dart';
 import 'package:health_care/config/dimensions.dart';
 import 'package:health_care/config/styles.dart';
 import 'package:health_care/services/api_funtions/login_functions.dart';
@@ -30,6 +31,7 @@ class _LoginScreen extends State<LoginScreen> {
     color: kPrimary,
   );
   bool _passwordHide = true;
+  bool progress = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -190,6 +192,7 @@ class _LoginScreen extends State<LoginScreen> {
                 SizedBox(
                   height: 40,
                 ),
+                progress ? CircularProgressIndicator(color: kPrimary,) :
                 SizedBox(
                   width: screenSize.width*0.5,
                   child: VeridoPrimaryButton(
@@ -204,16 +207,44 @@ class _LoginScreen extends State<LoginScreen> {
                     ),
                     onPressed: () {
                       if(_formKey.currentState?.validate() == true) {
+                        setState(() {
+                          progress = true;
+                        });
                         login(_emailController.text, _passwordController.text)
                             .then((response) {
+                              setState(() {
+                                progress = false;
+                              });
                               var data = jsonDecode(response.body);
                               if(response.statusCode==200)
                                 {
-                                  print(data);
+                                  if(data['isActive'] == true && (data['isAdmin'] == false && data['isSuperuser'] == false))
+                                    {
+                                      setState(() {
+                                        UserLoginData.token = data['token'].toString();
+                                        UserLoginData.userId = data['userId'].toString();
+                                        UserLoginData.username = data['username'].toString();
+                                        UserLoginData.displayName = data['displayName'].toString();
+                                        UserLoginData.email = "";
+                                        UserLoginData.image = "";
+                                        UserLoginData.isActive = data['isActive'].toString();
+                                        UserLoginData.isSuperUser = data['isSuperuser'].toString();
+                                        UserLoginData.isAdmin = data['isAdmin'].toString();
+                                        UserLoginData.phone = "";
+                                        UserLoginData.city = "";
+                                        UserLoginData.country = "";
+                                        UserLoginData.area = "";
+                                        UserLoginData.postalCode = "";
+                                      });
+                                      validatePatient(UserLoginData.userId).then((value) => print(value));
+                                    }
+                                  else
+                                    {
+                                      ScaffoldMessenger.of(context).showSnackBar(snackBarError("Sorry! You don't have access."));
+                                    }
                                 }
                               else
                                 {
-                                  print(data['message']);
                                   ScaffoldMessenger.of(context).showSnackBar(snackBarError(data['message']));
                                 }
                         }
