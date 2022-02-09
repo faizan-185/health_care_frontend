@@ -10,7 +10,6 @@ import 'package:health_care/services/api_funtions/login_functions.dart';
 import 'package:health_care/widgets/snackbars.dart';
 import 'package:health_care/widgets/verido-form-field.dart';
 import 'package:health_care/widgets/verido-primary-button.dart';
-import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -234,7 +233,11 @@ class _LoginScreen extends State<LoginScreen> {
                                         UserLoginData.area = "";
                                         UserLoginData.postalCode = "";
                                       });
-                                      validatePatient(UserLoginData.userId).then((value) => print(value));
+                                      validatePatient(UserLoginData.userId).then((value) {
+                                        print(value);
+                                        Navigator.pushNamed(
+                                            context, '/HomeScreen');
+                                      });
                                     }
                                   else
                                     {

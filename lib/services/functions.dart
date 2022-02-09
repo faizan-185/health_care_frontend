@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:health_care/config/light_color.dart';
 import 'package:health_care/config/styles.dart';
 
 String addCommas(String number) {
@@ -115,4 +118,23 @@ Future<void> copyToClipboard(
       ),
     ),
   ));
+}
+
+Color randomColor() {
+  var random = Random();
+  final colorList = [
+    kPrimary,
+    LightColor.orange,
+    LightColor.green,
+    LightColor.grey,
+    LightColor.lightOrange,
+    LightColor.skyBlue,
+    LightColor.titleTextColor,
+    Colors.red,
+    Colors.brown,
+    LightColor.purpleExtraLight,
+    LightColor.skyBlue,
+  ];
+  var color = colorList[random.nextInt(colorList.length)];
+  return color;
 }

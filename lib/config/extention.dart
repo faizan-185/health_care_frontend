@@ -29,7 +29,7 @@ extension PaddingHelper on Widget {
   Padding get vP8 =>
       Padding(padding: EdgeInsets.symmetric(vertical: 8), child: this);
   Padding get vP4 =>
-      Padding(padding: EdgeInsets.symmetric(vertical: 8), child: this);
+      Padding(padding: EdgeInsets.symmetric(vertical: 4), child: this);
 }
 
 extension Extented on Widget {
