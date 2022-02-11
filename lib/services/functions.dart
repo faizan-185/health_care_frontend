@@ -123,15 +123,11 @@ Future<void> copyToClipboard(
 Color randomColor() {
   var random = Random();
   final colorList = [
-    kPrimary,
     LightColor.orange,
     LightColor.green,
     LightColor.grey,
     LightColor.lightOrange,
     LightColor.skyBlue,
-    LightColor.titleTextColor,
-    Colors.red,
-    Colors.brown,
     LightColor.purpleExtraLight,
     LightColor.skyBlue,
   ];

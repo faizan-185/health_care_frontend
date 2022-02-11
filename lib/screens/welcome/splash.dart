@@ -14,7 +14,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
 
   route() {
-    Navigator.pushNamed(context, "/LoginScreen");
+    Navigator.popAndPushNamed(context, "/LoginScreen");
   }
 
   startTime() async {

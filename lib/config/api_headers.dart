@@ -6,6 +6,6 @@ var jsonHeader = <String, String>{
 };
 
 var jsonHeaderWithAuth = <String, String>{
-  'x-auth-token': UserLoginData.token,
-  'Content-Type': 'application/json; charset=UTF-8',
+  'Authorization': UserLoginData.token,
+  'Content-Type': 'application/json',
 };

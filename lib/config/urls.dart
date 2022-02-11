@@ -2,10 +2,11 @@
 class Urls{
   static String baseUrl = "https://healthcare-app0.herokuapp.com/";
   static String loginUrl = "user/login";
-  static String registerUrl = "user/register";
-  static String createPatient = "patient/create";
-  static String getAllPatients = "patient/get-all";
-  static String gatSinglePatient = "patient/get/";
-  static String updatePatient = "patient/update/";
-  static String deletePatient = "patient/delete/";
+  static String registerUrl = "user/register-for-mobile";
+  static String createPatientUrl = "patient/create";
+  static String getAllPatientsUrl = "patient/get-all";
+  static String gatSinglePatientUrl = "patient/get/";
+  static String updatePatientUrl = "patient/update/";
+  static String deletePatientUrl = "patient/delete/";
+  static String getAllHospitalsUrl = "hospital/get-all";
 }

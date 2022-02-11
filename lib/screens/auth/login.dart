@@ -29,6 +29,13 @@ class _LoginScreen extends State<LoginScreen> {
   );
   bool _passwordHide = true;
   bool progress = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -215,28 +222,36 @@ class _LoginScreen extends State<LoginScreen> {
                               var data = jsonDecode(response.body);
                               if(response.statusCode==200)
                                 {
-                                  if(data['isActive'] == true && (data['isAdmin'] == false && data['isSuperuser'] == false))
+                                  if(data['user']['isActive'] == true && (data['user']['isAdmin'] == false && data['user']['isSuperuser'] == false))
                                     {
                                       setState(() {
                                         UserLoginData.token = data['token'].toString();
-                                        UserLoginData.userId = data['userId'].toString();
-                                        UserLoginData.username = data['username'].toString();
-                                        UserLoginData.displayName = data['displayName'].toString();
-                                        UserLoginData.email = "";
-                                        UserLoginData.image = "";
-                                        UserLoginData.isActive = data['isActive'].toString();
-                                        UserLoginData.isSuperUser = data['isSuperuser'].toString();
-                                        UserLoginData.isAdmin = data['isAdmin'].toString();
-                                        UserLoginData.phone = "";
-                                        UserLoginData.city = "";
-                                        UserLoginData.country = "";
-                                        UserLoginData.area = "";
-                                        UserLoginData.postalCode = "";
+                                        UserLoginData.userId = data['user']['userId'].toString();
+                                        UserLoginData.username = data['user']['username'].toString();
+                                        UserLoginData.displayName = data['user']['displayName'].toString();
+                                        UserLoginData.email = data['user']['email'].toString();
+                                        UserLoginData.image = data['user']['image'].toString();
+                                        UserLoginData.isActive = data['user']['isActive'].toString();
+                                        UserLoginData.isSuperUser = data['user']['isSuperuser'].toString();
+                                        UserLoginData.isAdmin = data['user']['isAdmin'].toString();
+                                        UserLoginData.phone = data['user']['phoneNumber'].toString();
+                                        UserLoginData.city = data['user']['city'].toString();
+                                        UserLoginData.country = data['user']['country'].toString();
+                                        UserLoginData.area = data['user']['area'].toString();
+                                        UserLoginData.postalCode = data['user']['postalCode'].toString();
                                       });
+                                      print(data['user']['userId'].toString());
                                       validatePatient(UserLoginData.userId).then((value) {
                                         print(value);
-                                        Navigator.pushNamed(
-                                            context, '/HomeScreen');
+                                        if(value)
+                                        {
+                                          Navigator.pushReplacementNamed(
+                                              context, '/HomeScreen');
+                                        }
+                                        else{
+                                          ScaffoldMessenger.of(context).showSnackBar(snackBarError("Sorry! You don't have access."));
+                                        }
+
                                       });
                                     }
                                   else

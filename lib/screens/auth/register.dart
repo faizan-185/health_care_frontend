@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:health_care/config/data_classes.dart';
 import 'package:health_care/config/dimensions.dart';
 import 'package:health_care/config/styles.dart';
 import 'package:health_care/services/api_funtions/register_functions.dart';
@@ -28,6 +29,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     color: kPrimary,
   );
   bool _passwordHide = true;
+  bool status = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -200,7 +202,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 SizedBox(
                   height: 40,
                 ),
-                SizedBox(
+                status ? CircularProgressIndicator(color: kPrimary)
+                : SizedBox(
                   width: screenSize.width*0.5,
                   child: VeridoPrimaryButton(
                     title: Row(
@@ -215,12 +218,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     onPressed: () {
                       if(_formKey.currentState?.validate() == true)
                         {
+                          setState(() {
+                            status = true;
+                          });
                           register(_nameController.text, _emailController.text, _passwordController.text)
                               .then((response) {
                             var data = jsonDecode(response.body);
                             if(response.statusCode==200)
                             {
-                              print(data);
+                              registerPatient(_emailController.text, _passwordController.text).then((value) {
+                                var d = jsonDecode(value.body);
+                                if(value.statusCode==200)
+                                  {
+                                    setState(() {
+                                      status = false;
+                                    });
+                                    ScaffoldMessenger.of(context).showSnackBar(snackBarSuccess(d['message']));
+                                    _nameController.text = "";
+                                    _emailController.text = "";
+                                    _passwordController.text = "";
+                                    Navigator.pushReplacementNamed(context, "/LoginScreen");
+                                    setState(() {
+                                      UserLoginData.token = "";
+                                    });
+                                  }
+                                else{
+                                  ScaffoldMessenger.of(context).showSnackBar(snackBarError(d['message']));
+                                }
+                              });
+
                             }
                             else
                             {

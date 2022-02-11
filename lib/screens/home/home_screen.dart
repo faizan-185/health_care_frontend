@@ -1,9 +1,16 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:health_care/config/data_classes.dart';
+import 'package:health_care/config/dimensions.dart';
 import 'package:health_care/config/extention.dart';
 import 'package:health_care/config/light_color.dart';
 import 'package:health_care/config/styles.dart';
 import 'package:health_care/config/text_styles.dart';
 import 'package:health_care/config/themes.dart';
+import 'package:health_care/services/api_funtions/hospital_functions.dart';
+import 'package:health_care/services/functions.dart';
 import 'package:health_care/widgets/appbar.dart';
 import 'package:health_care/widgets/category-card.dart';
 
@@ -15,13 +22,77 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final colorList = [
+    LightColor.green,
+    LightColor.orange,
+    LightColor.purple,
+    LightColor.skyBlue,
+  ];
+  final lightColors = [
+    LightColor.lightGreen,
+    LightColor.lightOrange,
+    LightColor.purpleLight,
+    LightColor.lightBlue
+  ];
+  var color = [];
+  var lightColor = [];
+  TextStyle titleStyle = TextStyles.title.bold.white;
+  TextStyle subtitleStyle = TextStyles.body.bold.white;
+  int hospitalCount = 0;
+  bool status = false;
+
+  Future<void> getHospitalCount()async{
+    setState(() {
+      status = true;
+    });
+    await getAllHospitals().then((value) {
+      var data = jsonDecode(value.body);
+      if(value.statusCode==200)
+      {
+        data = data['hospital'];
+        setState(() {
+          hospitalCount = data.length;
+        });
+      }
+      else{
+        print(data['message']);
+      }
+    });
+    setState(() {
+      status = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    var added = [-1, -1, -1, -1, -1];
+    for(int i=0; i<5; i++)
+      {
+        bool stat = true;
+        var random = Random();
+        int ind = random.nextInt(colorList.length);
+        for(int j = 0; j<colorList.length; j++){
+          if(ind==added[j])
+            stat = false;
+          else
+            added.add(ind);
+        }
+        if(stat)
+          {
+            color.add(colorList[ind]);
+            lightColor.add(lightColors[ind]);
+          }
+      }
+    getHospitalCount();
+  }
 
   Widget _header() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text("Hello,", style: TextStyles.title.subTitleColor),
-        Text("Peter Parker", style: TextStyles.h1Style),
+        Text("Hello,", style: normalBlackTitleTextStyle),
+        Text(UserLoginData.displayName, style: secondaryBigHeadingTextStyle),
       ],
     ).p16;
   }
@@ -50,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
           hintStyle: TextStyles.body.subTitleColor,
           suffixIcon: SizedBox(
               width: 50,
-              child: Icon(Icons.search, color: LightColor.purple)
+              child: Icon(Icons.search, color: kPrimary)
                   .alignCenter
                   .ripple(() {}, borderRadius: BorderRadius.circular(13))),
         ),
@@ -60,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status ? Scaffold(body: Center(child: CircularProgressIndicator(color: kPrimary))) : Scaffold(
       backgroundColor: kBackground,
       appBar: appBarWidget(context),
       body: ListView(
@@ -69,6 +140,20 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           _header(),
           _searchField(),
+          Container(
+            margin: EdgeInsets.only(top: 10),
+            height: screenSize.height * 0.28,
+            width: screenSize.width,
+            child: ListView(
+              physics: BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              children: [
+                CategoryCard(color: color[0], lightColor: lightColor[0], title: "Finding a Cure?", subtitle: hospitalCount.toString()+" Hospitals", titleStyle: authSubTextStyle1, subtitleStyle: floatingButtonText,),
+                CategoryCard(color: color[1], lightColor: lightColor[1], title: "Looking for Meds?", subtitle: "200+ Pharmacies", titleStyle: authSubTextStyle1, subtitleStyle: floatingButtonText),
+                CategoryCard(color: color[2], lightColor: lightColor[2], title: "Ambulance Services", subtitle: "more than 100", titleStyle: authSubTextStyle1, subtitleStyle: floatingButtonText),
+              ],
+            ),
+          )
         ],
       ),
     );

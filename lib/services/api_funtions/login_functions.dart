@@ -19,7 +19,7 @@ Future<http.Response> login(var email, var password) async
 Future<bool> validatePatient(var userId) async {
   bool stat = false;
   await http.get(
-    Uri.parse(Urls.baseUrl + Urls.getAllPatients),
+    Uri.parse(Urls.baseUrl + Urls.getAllPatientsUrl),
     headers: jsonHeaderWithAuth,
   ).then((response) {
     if(response.statusCode == 200)
