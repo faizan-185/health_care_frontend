@@ -1,10 +1,14 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:health_care/config/data_classes.dart';
 import 'package:health_care/config/dimensions.dart';
 import 'package:health_care/config/styles.dart';
+import 'package:health_care/services/api_funtions/password_reset_functions.dart';
+import 'package:health_care/widgets/snackbars.dart';
 
 class OtpVerification extends StatefulWidget {
   const OtpVerification({Key? key}) : super(key: key);
@@ -82,7 +86,7 @@ class _OtpVerificationState extends State<OtpVerification> with SingleTickerProv
     return InkWell(
       child: Container(
         height: 32,
-        width: 80,
+        width: 50,
         decoration: BoxDecoration(
             color: kPrimary,
             shape: BoxShape.rectangle,
@@ -94,7 +98,32 @@ class _OtpVerificationState extends State<OtpVerification> with SingleTickerProv
               fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ),
-      onTap: () {
+      onTap: () async {
+        var rng = Random();
+        var rand = rng.nextInt(9000) + 1000;
+        setState(() {
+          UserLoginData.code = rand.toString();
+        });
+        await getUser(UserLoginData.email).then((value) async {
+          if(value==true)
+          {
+            await sendEmail(subject: "Recover Password", to: UserLoginData.email, name: UserLoginData.displayName, code: UserLoginData.code).then((value) {
+              if(value.statusCode==200)
+              {
+                ScaffoldMessenger.of(context).showSnackBar(snackBarSuccess("Email has been sent to you!"));
+                Navigator.pushNamed(context, "/OtpScreen");
+              }
+              else
+              {
+                ScaffoldMessenger.of(context).showSnackBar(snackBarError("Sorry! An error occurred."));
+              }
+            });
+          }
+          else
+          {
+            ScaffoldMessenger.of(context).showSnackBar(snackBarError("Sorry! Can't find your email."));
+          }
+        });
         // Resend you OTP via API or anything
       },
     );

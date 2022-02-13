@@ -3,6 +3,7 @@ class Urls{
   static String sendEmailUrl = "https://api.emailjs.com/api/v1.0/email/send";
   static String baseUrl = "https://healthcare-app0.herokuapp.com/";
   static String loginUrl = "user/login";
+  static String getUserByEmailUrl = "user/getByEmail/";
   static String registerUrl = "user/register-for-mobile";
   static String createPatientUrl = "patient/create";
   static String getAllPatientsUrl = "patient/get-all";

@@ -105,17 +105,27 @@ class _SendEmailState extends State<SendEmail> {
                           progress = true;
                           UserLoginData.code = rand.toString();
                         });
-                        await sendEmail(subject: "Recover Password", to: _emailController.text, name: "test", code: UserLoginData.code).then((value) {
-                          if(value.statusCode==200)
+                        await getUser(_emailController.text).then((value) async {
+                          if(value==true)
                             {
-                              ScaffoldMessenger.of(context).showSnackBar(snackBarSuccess("Email has been sent to you!"));
-                              Navigator.pushNamed(context, "/OtpScreen");
+                              await sendEmail(subject: "Recover Password", to: _emailController.text, name: UserLoginData.displayName, code: UserLoginData.code).then((value) {
+                                if(value.statusCode==200)
+                                {
+                                  ScaffoldMessenger.of(context).showSnackBar(snackBarSuccess("Email has been sent to you!"));
+                                  Navigator.pushNamed(context, "/OtpScreen");
+                                }
+                                else
+                                {
+                                  ScaffoldMessenger.of(context).showSnackBar(snackBarError("Sorry! An error occurred."));
+                                }
+                              });
                             }
                           else
                             {
-                              ScaffoldMessenger.of(context).showSnackBar(snackBarError("Sorry! An error occurred."));
+                              ScaffoldMessenger.of(context).showSnackBar(snackBarError("Sorry! Can't find your email."));
                             }
                         });
+
                         setState(() {
                           progress = false;
                         });
