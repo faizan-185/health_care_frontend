@@ -24,7 +24,7 @@ class _CategoryCardState extends State<CategoryCard> {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 6.5 / 8,
+      aspectRatio: 5.8 / 8,
       child: Container(
         margin: EdgeInsets.only(left: 10, right: 10, bottom: 20, top: 10),
         height: 280,

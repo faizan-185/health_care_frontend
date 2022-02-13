@@ -13,6 +13,7 @@ import 'package:health_care/services/api_funtions/hospital_functions.dart';
 import 'package:health_care/services/functions.dart';
 import 'package:health_care/widgets/appbar.dart';
 import 'package:health_care/widgets/category-card.dart';
+import 'package:health_care/widgets/drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -40,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
   TextStyle subtitleStyle = TextStyles.body.bold.white;
   int hospitalCount = 0;
   bool status = false;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   Future<void> getHospitalCount()async{
     setState(() {
@@ -132,8 +134,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return status ? Scaffold(body: Center(child: CircularProgressIndicator(color: kPrimary))) : Scaffold(
+      key: _scaffoldKey,
       backgroundColor: kBackground,
-      appBar: appBarWidget(context),
+      appBar: AppBarWidget(sK: _scaffoldKey,),
+      drawer: NavigationDrawerWidget(),
       body: ListView(
         physics: BouncingScrollPhysics(),
         shrinkWrap: true,

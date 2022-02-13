@@ -4,6 +4,7 @@ import 'package:health_care/screens/auth/login.dart';
 import 'package:health_care/screens/auth/otp.dart';
 import 'package:health_care/screens/auth/register.dart';
 import 'package:health_care/screens/auth/reset_password.dart';
+import 'package:health_care/screens/auth/send_email.dart';
 import 'package:health_care/screens/home/home_screen.dart';
 import 'package:health_care/screens/welcome/splash.dart';
 import 'package:health_care/screens/welcome/welcome_screen.dart';
@@ -14,9 +15,10 @@ class Routes {
       '/': (_) => SplashScreen(),
       '/HomeScreen': (_) => HomeScreen(),
       '/ResetPasswordScreen': (_) => ResetPasswordScreen(),
-      '/OptScreen': (_) => OtpVerification(),
+      '/OtpScreen': (_) => OtpVerification(),
       '/RegisterScreen': (_) => RegisterScreen(),
-      '/LoginScreen': (_) => LoginScreen()
+      '/LoginScreen': (_) => LoginScreen(),
+      '/SendEmail': (_) => SendEmail()
     };
   }
 

@@ -179,7 +179,7 @@ class _LoginScreen extends State<LoginScreen> {
                   child: GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(
-                          context, '/OtpScreen');
+                          context, '/SendEmail');
                     },
                     child: Text(
                       'forgot password',

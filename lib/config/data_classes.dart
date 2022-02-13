@@ -13,4 +13,5 @@ class UserLoginData{
   static String country = "";
   static String area = "";
   static String postalCode = "";
+  static String code = "";
 }
