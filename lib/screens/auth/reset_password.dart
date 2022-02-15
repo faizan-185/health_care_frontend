@@ -267,7 +267,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 ),
                 SizedBox(
                   width: screenSize.width*0.5,
-                  child: status ? CircularProgressIndicator(color: kPrimary,) : VeridoPrimaryButton(
+                  child: status ? Center(child: CircularProgressIndicator(color: kPrimary,)) : VeridoPrimaryButton(
                     title: Text(
                       "Reset Password",
                       maxLines: 1,
