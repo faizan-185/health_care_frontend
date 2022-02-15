@@ -27,7 +27,6 @@ dependencies:
   animated_text_kit: ^4.2.1
   flutter_svg: ^0.22.0
   google_fonts: ^2.1.0
-  local_auth: ^1.1.7
   flutter_remix: ^0.0.3
   shared_preferences: ^2.0.7
   provider: ^6.0.1
@@ -35,11 +34,10 @@ dependencies:
   dotted_line: ^3.0.1
   sqflite: ^2.0.0+4
   syncfusion_flutter_datepicker: ^19.3.48
-  image_picker: ^0.8.4+1
+  image_picker: ^0.8.4+8
   image_cropper: ^1.4.1
   cached_network_image: ^3.1.0+1
   blur: ^3.0.0
-  move_to_background: ^1.0.2
   pin_code_fields: ^7.3.0
   font_awesome_flutter: ^9.2.0
   syncfusion_flutter_charts: ^19.3.54

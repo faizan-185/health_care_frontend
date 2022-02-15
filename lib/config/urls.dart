@@ -5,6 +5,7 @@ class Urls{
   static String loginUrl = "user/login";
   static String getUserByEmailUrl = "user/getByEmail/";
   static String registerUrl = "user/register-for-mobile";
+  static String resetPasswordUrl = "user/reset-password";
   static String createPatientUrl = "patient/create";
   static String getAllPatientsUrl = "patient/get-all";
   static String gatSinglePatientUrl = "patient/get/";

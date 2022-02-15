@@ -35,3 +35,12 @@ Future<http.Response> sendEmail({required String subject, required String to, re
   var response  = await http.post(Uri.parse(Urls.sendEmailUrl), body: body, headers: jsonHeader);
   return response;
 }
+
+Future<http.Response> resetPassword(String userId, String password) async {
+  var body = {
+    "userId": userId,
+    "password": password
+  };
+  var response = await http.post(Uri.parse(Urls.baseUrl+Urls.resetPasswordUrl), body: jsonEncode(body), headers: jsonHeader);
+  return response;
+}

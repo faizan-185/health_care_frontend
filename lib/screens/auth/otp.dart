@@ -111,7 +111,10 @@ class _OtpVerificationState extends State<OtpVerification> with SingleTickerProv
               if(value.statusCode==200)
               {
                 ScaffoldMessenger.of(context).showSnackBar(snackBarSuccess("Email has been sent to you!"));
-                Navigator.pushNamed(context, "/OtpScreen");
+                setState(() {
+                  _hideResendButton = true;
+                  _startCountdown();
+                });
               }
               else
               {
@@ -216,7 +219,15 @@ class _OtpVerificationState extends State<OtpVerification> with SingleTickerProv
                     onPressed: () {
                       setState(
                             () {
-                          Navigator.pushNamed(context, "/ResetPasswordScreen");
+                              if(otp==UserLoginData.code)
+                                {
+                                  Navigator.pushNamed(context, "/ResetPasswordScreen");
+                                }
+                              else
+                                {
+                                  ScaffoldMessenger.of(context).showSnackBar(snackBarError("Invalid PIN!"));
+                                }
+
                           // verifyOTP(otp: otp)
                         },
                       );

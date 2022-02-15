@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:health_care/config/data_classes.dart';
 import 'package:health_care/config/dimensions.dart';
 import 'package:health_care/config/styles.dart';
+import 'package:health_care/services/api_funtions/password_reset_functions.dart';
+import 'package:health_care/widgets/snackbars.dart';
 import 'package:health_care/widgets/verido-form-field.dart';
 import 'package:health_care/widgets/verido-primary-button.dart';
 
@@ -31,6 +36,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     color: kPrimary,
   );
   bool _confirmPasswordHide = true;
+  bool status = false;
 
   String? _confirmPasswordValidator(value) {
     if (value == null || value.isEmpty) {
@@ -261,22 +267,36 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 ),
                 SizedBox(
                   width: screenSize.width*0.5,
-                  child: VeridoPrimaryButton(
+                  child: status ? CircularProgressIndicator(color: kPrimary,) : VeridoPrimaryButton(
                     title: Text(
                       "Reset Password",
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: kPrimaryButtonTextStyle,
                     ),
-                    onPressed: () {
-                      FormState? _formState = _formKey.currentState;
-                      if (_formState != null) {
-                        if (_formState.validate()) {
-                          print("Valid form");
-                          Navigator.pushNamed(context, "login");
-                        } else {
-                          print("Invalid form");
-                        }
+                    onPressed: ()  {
+                      if (_formKey.currentState!.validate()) {
+                        setState(() {
+                          status = true;
+                        });
+                        resetPassword(UserLoginData.userId, _passwordController.text).then((response) {
+                          var data = jsonDecode(response.body);
+                          if(response.statusCode==200)
+                            {
+                              setState(() {
+                                status = false;
+                              });
+                              ScaffoldMessenger.of(context).showSnackBar(snackBarSuccess(data['message']));
+                              Navigator.pushNamedAndRemoveUntil(context, "/LoginScreen", (route) => false);
+                            }
+                          else
+                            {
+                              setState(() {
+                                status = false;
+                              });
+                              ScaffoldMessenger.of(context).showSnackBar(snackBarError(data['message']));
+                            }
+                        });
                       }
                     },
                   ),
