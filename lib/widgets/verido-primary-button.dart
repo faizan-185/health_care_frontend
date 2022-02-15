@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:health_care/config/dimensions.dart';
 import 'package:health_care/config/styles.dart';
-import 'package:health_care/services/biometric.dart';
 
 class VeridoPrimaryButton extends StatefulWidget {
   const VeridoPrimaryButton(
@@ -36,4 +35,3 @@ class _VeridoPrimaryButtonState extends State<VeridoPrimaryButton> {
   }
 }
 
-VeridoBiometrics veridoBiometrics = VeridoBiometrics();
