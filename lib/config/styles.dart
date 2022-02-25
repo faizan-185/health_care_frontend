@@ -146,6 +146,12 @@ TextStyle floatingButtonText = GoogleFonts.poppins(
   fontWeight: FontWeight.w600,
 );
 
+TextStyle style10500 = GoogleFonts.poppins(
+  color: kGeneralWhite,
+  fontSize: 10,
+  fontWeight: FontWeight.w500,
+);
+
 TextStyle style13500 = GoogleFonts.poppins(
   color: kTextGray,
   fontSize: 13,
