@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:health_care/hospital/all_hospitals_screen.dart';
 import 'package:health_care/routes/route.dart';
 import 'package:health_care/screens/auth/login.dart';
 import 'package:health_care/screens/auth/otp.dart';
@@ -7,7 +8,6 @@ import 'package:health_care/screens/auth/reset_password.dart';
 import 'package:health_care/screens/auth/send_email.dart';
 import 'package:health_care/screens/home/home_screen.dart';
 import 'package:health_care/screens/welcome/splash.dart';
-import 'package:health_care/screens/welcome/welcome_screen.dart';
 
 class Routes {
   static Map<String, WidgetBuilder> getRoute() {
@@ -18,7 +18,8 @@ class Routes {
       '/OtpScreen': (_) => OtpVerification(),
       '/RegisterScreen': (_) => RegisterScreen(),
       '/LoginScreen': (_) => LoginScreen(),
-      '/SendEmail': (_) => SendEmail()
+      '/SendEmail': (_) => SendEmail(),
+      '/AllHospitalsScreen': (_) => AllHospitalsScreen(),
     };
   }
 
@@ -39,6 +40,8 @@ class Routes {
       case "HomeScreen":
         return CustomRoute<bool>(
             builder: (BuildContext context) => HomeScreen());
+      case "AllHospitalsScreen":
+        return CustomRoute(builder: (BuildContext context)=> AllHospitalsScreen());
     }
   }
 }

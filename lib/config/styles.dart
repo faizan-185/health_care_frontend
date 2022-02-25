@@ -146,6 +146,12 @@ TextStyle floatingButtonText = GoogleFonts.poppins(
   fontWeight: FontWeight.w600,
 );
 
+TextStyle style13500 = GoogleFonts.poppins(
+  color: kTextGray,
+  fontSize: 13,
+  fontWeight: FontWeight.w500,
+);
+
 TextStyle snackBarErrorStyle = GoogleFonts.poppins(
   color: kRed,
   fontSize: 16,

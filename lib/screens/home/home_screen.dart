@@ -146,15 +146,26 @@ class _HomeScreenState extends State<HomeScreen> {
           _searchField(),
           Container(
             margin: EdgeInsets.only(top: 10),
-            height: screenSize.height * 0.28,
+            height: 200,
             width: screenSize.width,
             child: ListView(
               physics: BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               children: [
-                CategoryCard(color: color[0], lightColor: lightColor[0], title: "Finding a Cure?", subtitle: hospitalCount.toString()+" Hospitals", titleStyle: authSubTextStyle1, subtitleStyle: floatingButtonText,),
-                CategoryCard(color: color[1], lightColor: lightColor[1], title: "Looking for Meds?", subtitle: "200+ Pharmacies", titleStyle: authSubTextStyle1, subtitleStyle: floatingButtonText),
-                CategoryCard(color: color[2], lightColor: lightColor[2], title: "Ambulance Services", subtitle: "more than 100", titleStyle: authSubTextStyle1, subtitleStyle: floatingButtonText),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.pushNamed(context, '/AllHospitalsScreen');
+                  },
+                  child: AbsorbPointer(
+                    child: CategoryCard(color: color[0], lightColor: lightColor[0], title: "Finding a Cure?",
+                      subtitle: hospitalCount.toString()+" Hospitals", titleStyle: authSubTextStyle1,
+                      subtitleStyle: floatingButtonText, ),
+                  ),
+                ),
+                CategoryCard(color: color[1], lightColor: lightColor[1], title: "Looking for Meds?",
+                    subtitle: "200+ Pharmacies", titleStyle: authSubTextStyle1, subtitleStyle: floatingButtonText),
+                CategoryCard(color: color[2], lightColor: lightColor[2], title: "Ambulance Services",
+                    subtitle: "more than 100", titleStyle: authSubTextStyle1, subtitleStyle: floatingButtonText),
               ],
             ),
           )
