@@ -12,4 +12,6 @@ class Urls{
   static String updatePatientUrl = "patient/update/";
   static String deletePatientUrl = "patient/delete/";
   static String getAllHospitalsUrl = "hospital/get-all";
+  static String getAllDepartments = "department/get-all";
+  static String getAllDoctorsInDepartment = "dr-in-depart/get-by-dep/";
 }

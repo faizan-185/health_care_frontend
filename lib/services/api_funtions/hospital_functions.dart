@@ -9,3 +9,19 @@ Future<http.Response> getAllHospitals() async
       headers: jsonHeaderWithAuth);
   return response;
 }
+
+Future<http.Response> getAllDepartments() async
+{
+  var response = await http.get(
+      Uri.parse(Urls.baseUrl+Urls.getAllDepartments),
+      headers: jsonHeaderWithAuth);
+  return response;
+}
+
+Future<http.Response> getAllDoctorsOfDepartment(var id) async
+{
+  var response = await http.get(
+      Uri.parse(Urls.baseUrl+Urls.getAllDoctorsInDepartment+id),
+      headers: jsonHeaderWithAuth);
+  return response;
+}

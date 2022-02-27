@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:health_care/hospital/all_hospitals_screen.dart';
+import 'package:health_care/screens/hospital/all_hospitals_screen.dart';
 import 'package:health_care/routes/route.dart';
 import 'package:health_care/screens/auth/login.dart';
 import 'package:health_care/screens/auth/otp.dart';

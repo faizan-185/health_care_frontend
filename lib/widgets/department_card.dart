@@ -2,29 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:health_care/config/dimensions.dart';
 import 'package:health_care/config/styles.dart';
+import 'package:health_care/config/urls.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
-class HospitalCard extends StatefulWidget {
-  String title;
-  String address;
-  String phone;
-  String opening;
-  String email;
+class DepartmentCard extends StatefulWidget {
   String image;
-  HospitalCard({Key? key, required this.title, required this.address, required this.phone, required this.opening, required this.email, required this.image}) : super(key: key);
+  String name;
+  String phone;
+  String email;
+  DepartmentCard({Key? key, required this.name, required this.email, required this.phone, required this.image}) : super(key: key);
 
   @override
-  _HospitalCardState createState() => _HospitalCardState();
+  _DepartmentCardState createState() => _DepartmentCardState();
 }
 
-class _HospitalCardState extends State<HospitalCard> {
+class _DepartmentCardState extends State<DepartmentCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 5.0, bottom: 5.0, left: 16.00, right: 16.00),
+      padding: const EdgeInsets.only(top: 10.0, bottom: 5.0),
       child: Container(
         width: screenSize.width,
-        height: 200,
+        height: 130,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -44,27 +43,16 @@ class _HospitalCardState extends State<HospitalCard> {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   CircleAvatar(
-                    backgroundImage: NetworkImage(widget.image),
-                    radius: 40,
+                    backgroundImage: NetworkImage(Urls.baseUrl+widget.image),
+                    radius: 30,
                   ),
                   SizedBox(width: 15,),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: 200,
-                          child: Text(widget.title, style: normalBlackTitleTextStyle,)),
-                      SizedBox(height: 5,),
-                      SizedBox(
-                        width: 200,
-                        child: Text(widget.address, style: style13500,),
-                      ),
-                    ],
-                  )
+                  SizedBox(
+                      width: 200,
+                      child: Text(widget.name, style: normalBlackTitleTextStyle,)),
                 ],
               ),
               SizedBox(height: 5,),
@@ -84,32 +72,7 @@ class _HospitalCardState extends State<HospitalCard> {
                     width: 5,
                   ),
                   Text(widget.phone, style: listTileTitle,),
-                  SizedBox(
-                    width: 40,
-                  ),
-                  IconButton(
-                    padding: EdgeInsets.zero,
-                    constraints: BoxConstraints(),
-                    icon: Icon(FontAwesomeIcons.mapMarkedAlt, color: kPrimary, size: 15),
-                    onPressed: (){
-                      String query = Uri.encodeComponent(widget.title+" "+widget.address);
-                      String googleUrl = "https://www.google.com/maps/search/?api=1&query=$query";
-                      UrlLauncher.launch(googleUrl);
-                    },
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Text("Open Map", style: listTileTitle,),
-                ],
-              ),
-              SizedBox(height: 5,),
-              Text(widget.opening, style: listTileTitle,),
-              SizedBox(height: 5,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
+                  Spacer(),
                   IconButton(
                     padding: EdgeInsets.zero,
                     constraints: BoxConstraints(),
@@ -121,7 +84,7 @@ class _HospitalCardState extends State<HospitalCard> {
                   SizedBox(
                     width: 5,
                   ),
-                  Text(widget.email, style: listTileTitle,),
+                  SizedBox(width: screenSize.width*0.4, child: Text(widget.email, style: listTileTitle,)),
                 ],
               ),
             ],

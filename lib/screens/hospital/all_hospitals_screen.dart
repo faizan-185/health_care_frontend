@@ -9,6 +9,7 @@ import 'package:health_care/config/styles.dart';
 import 'package:health_care/config/text_styles.dart';
 import 'package:health_care/config/urls.dart';
 import 'package:health_care/models/Hospital.dart';
+import 'package:health_care/screens/hospital/hospital_details.dart';
 import 'package:health_care/services/api_funtions/hospital_functions.dart';
 import 'package:health_care/widgets/appbar.dart';
 import 'package:health_care/widgets/drawer.dart';
@@ -110,10 +111,15 @@ class _AllHospitalsScreenState extends State<AllHospitalsScreen> {
               itemCount: hospitals.length,
                 itemBuilder: (BuildContext context, int index)
                 {
-                  return HospitalCard(title: hospitals[index].hospitalName,
-                      address: hospitals[index].area+", "+hospitals[index].city+", "+hospitals[index].country+", "+hospitals[index].postalCode,
-                      phone: hospitals[index].phoneNo, opening: hospitals[index].openingHours, email: hospitals[index].email,
-                      image: Urls.baseUrl+hospitals[index].image,
+                  return InkWell(
+                    onTap: (){
+                      Navigator.push(context, new MaterialPageRoute(builder: (context) => HospitalDetails(hospital: hospitals[index],)));
+                    },
+                    child: HospitalCard(title: hospitals[index].hospitalName,
+                        address: hospitals[index].area+", "+hospitals[index].city+", "+hospitals[index].country+", "+hospitals[index].postalCode,
+                        phone: hospitals[index].phoneNo, opening: hospitals[index].openingHours, email: hospitals[index].email,
+                        image: Urls.baseUrl+hospitals[index].image,
+                    ),
                   );
                 }
             ),
