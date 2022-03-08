@@ -3,6 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:health_care/config/data_classes.dart';
 import 'package:health_care/config/styles.dart';
 import 'package:health_care/config/urls.dart';
+import 'package:health_care/screens/auth/profile.dart';
+import 'package:health_care/screens/home/home_screen.dart';
 import 'package:http/http.dart' as http;
 
 
@@ -115,14 +117,16 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                   buildMenuItem(
                     text: 'Home',
                     icon: FontAwesomeIcons.home,
-                    onClicked: () => selectedItem(context, 0),
+                    onClicked: () {
+                      Navigator.pushNamedAndRemoveUntil(context, "/HomeScreen", (route) => false);
+                    },
                   ),
-                  const SizedBox(height: 16),
-                  buildMenuItem(
-                    text: 'Favourites',
-                    icon: Icons.favorite_border,
-                    onClicked: () => selectedItem(context, 1),
-                  ),
+                  // const SizedBox(height: 16),
+                  // buildMenuItem(
+                  //   text: 'Favourites',
+                  //   icon: Icons.favorite_border,
+                  //   onClicked: () => selectedItem(context, 1),
+                  // ),
                   const SizedBox(height: 16),
                   buildMenuItem(
                     text: 'My Appointments',
@@ -141,7 +145,11 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                   buildMenuItem(
                     text: 'My Profile',
                     icon: FontAwesomeIcons.user,
-                    onClicked: () => selectedItem(context, 4),
+                    onClicked: () {
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(builder: (BuildContext context) => Profile()));
+                    },
                   ),
                   const SizedBox(height: 16),
                   buildMenuItem(

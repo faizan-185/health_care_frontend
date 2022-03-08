@@ -229,7 +229,7 @@ TextStyle detailData = GoogleFonts.poppins(
 TextStyle detailData1 = GoogleFonts.poppins(
     color: kTextPrimary, fontWeight: FontWeight.w500, fontSize: 14);
 TextStyle detailData2 = GoogleFonts.poppins(
-    color: kTextPrimary, fontWeight: FontWeight.w500, fontSize: 16);
+    color: kTextPrimary, fontWeight: FontWeight.w600, fontSize: 17);
 TextStyle detailData3 = GoogleFonts.poppins(
     color: kTextPrimary, fontWeight: FontWeight.w400, fontSize: 13);
 

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:health_care/config/dimensions.dart';
@@ -7,6 +6,7 @@ import 'package:health_care/config/styles.dart';
 import 'package:health_care/config/urls.dart';
 import 'package:health_care/models/Department.dart';
 import 'package:health_care/models/DoctorInDepartment.dart';
+import 'package:health_care/screens/hospital/doctor_details.dart';
 import 'package:health_care/services/api_funtions/hospital_functions.dart';
 import 'package:health_care/widgets/appbar.dart';
 import 'package:health_care/widgets/doctor_card.dart';
@@ -150,7 +150,7 @@ class _DepartmentDetailsState extends State<DepartmentDetails> {
               itemBuilder: (BuildContext context, int index){
                 return InkWell(
                   onTap: (){
-                    //Navigator.push(context, new MaterialPageRoute(builder: (context) => DepartmentDetails(department: departments[index])));
+                    Navigator.push(context, new MaterialPageRoute(builder: (context) => DoctorDetails(doctor: doctors[index].doctor)));
                   },
                   child: DoctorCard(name: doctors[index].doctor.user.displayName,
                     phone: doctors[index].doctor.user.phoneNumber, email: doctors[index].doctor.user.email,

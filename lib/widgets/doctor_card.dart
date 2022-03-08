@@ -62,6 +62,7 @@ class _DoctorCardState extends State<DoctorCard> {
                       width: 200,
                       child: Text(widget.qAnds, style: style13500,),
                     ),
+                    
                   ],
                 )
               ],

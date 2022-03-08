@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:health_care/screens/auth/profile.dart';
 import 'package:health_care/screens/hospital/all_hospitals_screen.dart';
 import 'package:health_care/routes/route.dart';
 import 'package:health_care/screens/auth/login.dart';
@@ -20,6 +21,7 @@ class Routes {
       '/LoginScreen': (_) => LoginScreen(),
       '/SendEmail': (_) => SendEmail(),
       '/AllHospitalsScreen': (_) => AllHospitalsScreen(),
+      '/ProfileScreen': (_) => Profile()
     };
   }
 
@@ -42,6 +44,8 @@ class Routes {
             builder: (BuildContext context) => HomeScreen());
       case "AllHospitalsScreen":
         return CustomRoute(builder: (BuildContext context)=> AllHospitalsScreen());
+      case "ProfileScreen":
+        return CustomRoute(builder: (BuildContext context)=> Profile());
     }
   }
 }
