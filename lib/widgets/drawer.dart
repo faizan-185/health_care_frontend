@@ -64,7 +64,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
     setState(() {
       imageStatus = true;
     });
-    await http.get(Uri.parse(Urls.baseUrl+"docto.png")).then((value) {
+    await http.get(Uri.parse(Urls.baseUrl+"doctor.png")).then((value) {
       if(value.statusCode==200)
         {
           setState(() {
@@ -101,7 +101,11 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
               image: image,
               name: name,
               email: email,
-              onClicked: ()=>{},
+              onClicked: (){
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(builder: (BuildContext context) => Profile()));
+              },
               status: imageStatus
               // onClicked: () => Navigator.of(context).push(MaterialPageRoute(
               //   builder: (context) => UserPage(

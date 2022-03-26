@@ -66,6 +66,7 @@ class _HospitalDetailsState extends State<HospitalDetails> {
   Widget _header() {
     return SizedBox(width: screenSize.width, child: Text(widget.hospital.hospitalName, style: secondaryBigHeadingTextStyle));
   }
+
   @override
   Widget build(BuildContext context) {
     return status ? Scaffold(body: Center(child: CircularProgressIndicator(color: kPrimary))) : Scaffold(

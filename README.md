@@ -1,6 +1,6 @@
 # health_care
 
-A Health Care Application For Patients.
+Smart Tele HealthCare App For Patient
 
 ## Getting Started
 
