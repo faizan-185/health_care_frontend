@@ -14,4 +14,7 @@ class Urls{
   static String getAllHospitalsUrl = "hospital/get-all";
   static String getAllDepartments = "department/get-all";
   static String getAllDoctorsInDepartment = "dr-in-depart/get-by-dep/";
+  static String uploadImage = "user/upload/";
+  static String updateProfileUrl = "user/update/";
+  static String sendAppointmentRequest = "appointment/create";
 }

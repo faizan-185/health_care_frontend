@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:health_care/config/api_headers.dart';
+import 'package:health_care/config/data_classes.dart';
 import 'package:health_care/config/urls.dart';
 import 'package:health_care/models/Patient.dart';
 import 'package:http/http.dart' as http;
@@ -33,6 +34,7 @@ Future<bool> validatePatient(var userId) async {
         for(var element in patients){
           if(element.user.userId == userId)
             {
+              UserLoginData.patient_id = element.patientId;
               stat = true;
               break;
             }

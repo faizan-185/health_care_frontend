@@ -242,9 +242,7 @@ class _LoginScreen extends State<LoginScreen> {
                                         UserLoginData.area = data['user']['area'].toString();
                                         UserLoginData.postalCode = data['user']['postalCode'].toString();
                                       });
-                                      print(data['user']['userId'].toString());
                                       validatePatient(UserLoginData.userId).then((value) {
-                                        print(value);
                                         if(value)
                                         {
                                           Navigator.pushReplacementNamed(

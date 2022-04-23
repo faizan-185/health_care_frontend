@@ -1,14 +1,21 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:health_care/config/data_classes.dart';
 import 'package:health_care/config/dimensions.dart';
 import 'package:health_care/config/styles.dart';
 import 'package:health_care/config/urls.dart';
 import 'package:health_care/models/Doctor.dart';
 import 'package:health_care/screens/hospital/disease_details.dart';
+import 'package:health_care/services/api_funtions/send_appointment_request.dart';
 import 'package:health_care/widgets/appbar.dart';
 import 'package:health_care/widgets/drawer.dart';
 import 'package:health_care/widgets/verido-primary-button.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
+
+import '../../widgets/snackbars.dart';
+import '../../widgets/verido-form-field.dart';
 
 class DoctorDetails extends StatefulWidget {
   Doctor doctor;
@@ -20,6 +27,7 @@ class DoctorDetails extends StatefulWidget {
 
 class _DoctorDetailsState extends State<DoctorDetails> {
   bool status = false;
+  double op = 1.0;
   bool notFound = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   Widget _header() {
@@ -27,7 +35,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
   }
   @override
   Widget build(BuildContext context) {
-    return status ? Scaffold(body: Center(child: CircularProgressIndicator(color: kPrimary))) : Scaffold(
+    return status ? Scaffold(key: _scaffoldKey, body: Center(child: CircularProgressIndicator(color: kPrimary))) : Scaffold(
       key: _scaffoldKey,
       backgroundColor: kBackground,
       appBar: AppBarWidget(sK: _scaffoldKey,),
@@ -202,7 +210,61 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                 ],
               ),
               onPressed: () {
+                TextEditingController reasonController = new TextEditingController();
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return Expanded(
+                      child: AlertDialog(
+                        title: Text("Appointment Request"),
+                        content: TextFormField(
+                        controller: reasonController,
+                        keyboardType: getKeyboardType(
+                            inputType: VeridoInputType.text),
+                        style: kFormTextStyle,
+                        validator: emailValidator,
+                        decoration: veridoInputDecoration(
+                            inputType: VeridoInputType.email,
+                            hint: "Enter Reason"),
+                      ),
+                        actions: [
+                          FlatButton(
+                            textColor: Colors.black,
+                            onPressed: () async {
+                              Navigator.pop(context);
+                            },
+                            child: Text('CANCEL'),
+                          ),
+                          FlatButton(
+                            textColor: Colors.black,
+                            onPressed: () async {
 
+                              var data;
+                              var code = 0;
+                              await send_request(UserLoginData.patient_id, widget.doctor.doctorId, reasonController.text)
+                                  .then((response) {
+                                print(response.body);
+                                data = jsonDecode(response.body);
+                                code = response.statusCode;
+                              });
+                              if(code==200)
+                              {
+                                ScaffoldMessenger.of(context).showSnackBar(snackBarSuccess(data['message']));
+                              }
+                              else
+                              {
+                                ScaffoldMessenger.of(context).showSnackBar(snackBarError(data['message']));
+                              }
+                              Navigator.pop(context);
+                            },
+                            child: Text('ACCEPT'),
+                          ),
+                        ],
+                      ),
+
+                    );
+                  },
+                );
               },
             ),
           ),
