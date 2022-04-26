@@ -100,7 +100,6 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
             buildHeader(
               image: image,
               name: name,
-              email: email,
               onClicked: (){
                 Navigator.push(
                     context,
@@ -135,7 +134,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                   buildMenuItem(
                     text: 'My Appointments',
                     icon: FontAwesomeIcons.calendarCheck,
-                    onClicked: () => selectedItem(context, 2),
+                    onClicked: () => Navigator.pushNamedAndRemoveUntil(context, "/MyAppointments", (route) => false),
                   ),
                   const SizedBox(height: 16),
                   buildMenuItem(
@@ -198,7 +197,6 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
     required bool status,
     required var image,
     required String name,
-    required String email,
     required VoidCallback onClicked,
   }) {
 
@@ -217,11 +215,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                     name,
                     style: authSubTextStyle1,
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    email,
-                    style: kFormTextStyle1,
-                  ),
+
                 ],
               ),
               Spacer(),

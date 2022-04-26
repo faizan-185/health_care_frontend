@@ -17,4 +17,5 @@ class Urls{
   static String uploadImage = "user/upload/";
   static String updateProfileUrl = "user/update/";
   static String sendAppointmentRequest = "appointment/create";
+  static String getAllAppointments = "appointment/get-all";
 }

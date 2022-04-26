@@ -18,3 +18,10 @@ Future<http.Response> send_request(var pid, var did, var reason) async
       body: jsonEncode(body));
   return response;
 }
+Future<http.Response> all_appointments() async
+{
+  var response = await http.get(
+      Uri.parse(Urls.baseUrl+Urls.getAllAppointments),
+      headers: jsonHeaderWithAuth);
+  return response;
+}

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:health_care/config/data_classes.dart';
@@ -8,7 +7,7 @@ import 'package:health_care/config/styles.dart';
 import 'package:health_care/config/urls.dart';
 import 'package:health_care/models/Doctor.dart';
 import 'package:health_care/screens/hospital/disease_details.dart';
-import 'package:health_care/services/api_funtions/send_appointment_request.dart';
+import 'package:health_care/services/api_funtions/appointment_requests.dart';
 import 'package:health_care/widgets/appbar.dart';
 import 'package:health_care/widgets/drawer.dart';
 import 'package:health_care/widgets/verido-primary-button.dart';
