@@ -11,7 +11,6 @@ Future<http.Response> send_request(var pid, var did, var reason) async
     "doctorId": did,
     "status": "pending",
   };
-  print(body);
   var response = await http.post(
       Uri.parse(Urls.baseUrl+Urls.sendAppointmentRequest),
       headers: jsonHeaderWithAuth,

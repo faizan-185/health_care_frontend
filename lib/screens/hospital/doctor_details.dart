@@ -223,7 +223,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                         style: kFormTextStyle,
                         validator: emailValidator,
                         decoration: veridoInputDecoration(
-                            inputType: VeridoInputType.email,
+                            inputType: VeridoInputType.text,
                             hint: "Enter Reason"),
                       ),
                         actions: [
@@ -256,7 +256,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                               }
                               Navigator.pop(context);
                             },
-                            child: Text('ACCEPT'),
+                            child: Text('SEND'),
                           ),
                         ],
                       ),

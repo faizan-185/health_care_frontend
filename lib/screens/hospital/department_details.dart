@@ -143,7 +143,7 @@ class _DepartmentDetailsState extends State<DepartmentDetails> {
           ),
           SizedBox(height: 10,),
           Text("All Doctors:", style: listTilePrice,),
-          doctors.length==0 ? Center(child: Text("No Departments", style: snackBarErrorStyle,)) : ListView.builder(
+          doctors.length==0 ? Center(child: Text("No Doctors", style: snackBarErrorStyle,)) : ListView.builder(
               shrinkWrap: true,
               physics: ClampingScrollPhysics(),
               itemCount: doctors.length,
