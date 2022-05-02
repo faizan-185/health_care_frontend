@@ -9,6 +9,7 @@ import 'package:health_care/screens/auth/register.dart';
 import 'package:health_care/screens/auth/reset_password.dart';
 import 'package:health_care/screens/auth/send_email.dart';
 import 'package:health_care/screens/home/home_screen.dart';
+import 'package:health_care/screens/pharmacy/all_pharmacies.dart';
 import 'package:health_care/screens/welcome/splash.dart';
 
 class Routes {
@@ -23,7 +24,8 @@ class Routes {
       '/SendEmail': (_) => SendEmail(),
       '/AllHospitalsScreen': (_) => AllHospitalsScreen(),
       '/ProfileScreen': (_) => Profile(),
-      '/MyAppointments': (_) => MyAppointments()
+      '/MyAppointments': (_) => MyAppointments(),
+      '/AllPharmacies': (_) => AllPharmacies()
     };
   }
 
@@ -50,6 +52,8 @@ class Routes {
         return CustomRoute(builder: (BuildContext context)=> Profile());
       case "MyAppointments":
         return CustomRoute(builder: (BuildContext context)=> MyAppointments());
+      case "AllPharmacies":
+        return CustomRoute(builder: (BuildContext context)=> AllPharmacies());
     }
   }
 }

@@ -10,6 +10,7 @@ import 'package:health_care/config/styles.dart';
 import 'package:health_care/config/text_styles.dart';
 import 'package:health_care/config/themes.dart';
 import 'package:health_care/services/api_funtions/hospital_functions.dart';
+import 'package:health_care/services/api_funtions/pharmacy_functions.dart';
 import 'package:health_care/services/functions.dart';
 import 'package:health_care/widgets/appbar.dart';
 import 'package:health_care/widgets/category-card.dart';
@@ -40,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
   TextStyle titleStyle = TextStyles.title.bold.white;
   TextStyle subtitleStyle = TextStyles.body.bold.white;
   int hospitalCount = 0;
+  int pharmacyCount = 0;
   bool status = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -54,6 +56,28 @@ class _HomeScreenState extends State<HomeScreen> {
         data = data['hospital'];
         setState(() {
           hospitalCount = data.length;
+        });
+      }
+      else{
+        print(data['message']);
+      }
+    });
+    setState(() {
+      status = false;
+    });
+  }
+
+  Future<void> getPharmaciesCount()async{
+    setState(() {
+      status = true;
+    });
+    await getAllPharmacies().then((value) {
+      var data = jsonDecode(value.body);
+      if(value.statusCode==200)
+      {
+        data = data['pharmacy'];
+        setState(() {
+          pharmacyCount = data.length;
         });
       }
       else{
@@ -87,6 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
           }
       }
     getHospitalCount();
+    getPharmaciesCount();
   }
 
   Widget _header() {
@@ -149,6 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 200,
             width: screenSize.width,
             child: ListView(
+              padding: EdgeInsets.only(left: 10),
               physics: BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               children: [
@@ -162,10 +188,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       subtitleStyle: floatingButtonText, ),
                   ),
                 ),
-                CategoryCard(color: color[1], lightColor: lightColor[1], title: "Looking for Meds?",
-                    subtitle: "200+ Pharmacies", titleStyle: authSubTextStyle1, subtitleStyle: floatingButtonText),
-                CategoryCard(color: color[2], lightColor: lightColor[2], title: "Ambulance Services",
-                    subtitle: "more than 100", titleStyle: authSubTextStyle1, subtitleStyle: floatingButtonText),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.pushNamed(context, '/AllPharmacies');
+                  },
+                  child: AbsorbPointer(
+                    child: CategoryCard(color: color[1], lightColor: lightColor[1], title: "Looking for Meds?",
+                        subtitle: "${pharmacyCount} Pharmacies", titleStyle: authSubTextStyle1, subtitleStyle: floatingButtonText),
+                  ),
+                ),
+                // CategoryCard(color: color[2], lightColor: lightColor[2], title: "Ambulance Services",
+                //     subtitle: "more than 100", titleStyle: authSubTextStyle1, subtitleStyle: floatingButtonText),
               ],
             ),
           )
