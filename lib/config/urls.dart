@@ -19,4 +19,5 @@ class Urls{
   static String sendAppointmentRequest = "appointment/create";
   static String getAllAppointments = "appointment/get-all";
   static String getAllPharmacies = "pharmacy/get-all";
+  static String getAllMedicineInPharmacyByPharmacy = "medicine-pharmacy/get-by-pharmacy/";
 }

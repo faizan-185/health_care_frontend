@@ -10,6 +10,7 @@ import 'package:health_care/screens/auth/reset_password.dart';
 import 'package:health_care/screens/auth/send_email.dart';
 import 'package:health_care/screens/home/home_screen.dart';
 import 'package:health_care/screens/pharmacy/all_pharmacies.dart';
+import 'package:health_care/screens/pharmacy/pharmacy_details.dart';
 import 'package:health_care/screens/welcome/splash.dart';
 
 class Routes {

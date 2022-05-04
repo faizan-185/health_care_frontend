@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:health_care/config/dimensions.dart';
 import 'package:health_care/config/extention.dart';
 import 'package:health_care/models/Pharmacy.dart';
+import 'package:health_care/screens/pharmacy/pharmacy_details.dart';
 import 'package:health_care/services/api_funtions/pharmacy_functions.dart';
 import 'package:health_care/widgets/pharmacy_card.dart';
 
@@ -103,7 +104,12 @@ class _AllPharmaciesState extends State<AllPharmacies> {
               shrinkWrap: true,
               itemCount: pharmacies.length,
               itemBuilder: (BuildContext context, int index){
-                return PharmacyCard(pharmacy: pharmacies[index]);
+                return InkWell(
+                  onTap: (){
+                    Navigator.push(context, new MaterialPageRoute(builder: (context) => PharmacyDetails(pharmacy: pharmacies[index])));
+                  },
+                    child: PharmacyCard(pharmacy: pharmacies[index])
+                );
               }
             ),
           )
