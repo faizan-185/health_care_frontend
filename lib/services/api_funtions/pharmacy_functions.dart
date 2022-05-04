@@ -14,3 +14,4 @@ Future<http.Response> getAllMedicinesOfPharmacy(var id) async{
   var response = await http.get(Uri.parse(Urls.baseUrl+Urls.getAllMedicineInPharmacyByPharmacy+id), headers: jsonHeaderWithAuth);
   return response;
 }
+

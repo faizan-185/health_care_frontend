@@ -13,6 +13,7 @@ import '../../config/light_color.dart';
 import '../../config/styles.dart';
 import '../../config/text_styles.dart';
 import '../../services/api_funtions/pharmacy_functions.dart';
+import '../../widgets/verido-primary-button.dart';
 
 class PharmacyDetails extends StatefulWidget {
   Pharmacy pharmacy;
@@ -23,11 +24,20 @@ class PharmacyDetails extends StatefulWidget {
 }
 
 class _PharmacyDetailsState extends State<PharmacyDetails> {
+  double total = 0.0;
+  TextEditingController _controller = TextEditingController();
   List<MedicineUnit> medicines = [];
-  List<MedicineUnit> bucket = [];
   List<MedicineOrder> orderList = [];
   List<MedicineUnit> filteredMedicines = [];
   bool show = false;
+  double calculatePrice()
+  {
+    double price = 0.0;
+    orderList.forEach((element) { 
+      price = price + element.quantity * double.parse(element.medicineUnit.pricePerUnit);
+    });
+    return price;
+  }
   void getMeds() async
   {
     setState(() {
@@ -70,6 +80,7 @@ class _PharmacyDetailsState extends State<PharmacyDetails> {
         ],
       ),
       child: TextField(
+        controller: _controller,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           border: InputBorder.none,
@@ -77,9 +88,16 @@ class _PharmacyDetailsState extends State<PharmacyDetails> {
           hintStyle: TextStyles.body.subTitleColor,
           suffixIcon: SizedBox(
               width: 50,
-              child: Icon(Icons.search, color: kPrimary)
-                  .alignCenter
-                  .ripple(() {}, borderRadius: BorderRadius.circular(13))),
+              child: IconButton(
+                icon: Icon(Icons.cancel_outlined, color: kPrimary),
+                onPressed: (){
+                  setState(() {
+                    _controller.text = "";
+                    show = false;
+                    filteredMedicines.clear();
+                  });
+                },
+              )),
         ),
         onChanged: (String? text){
           if(text!.isEmpty)
@@ -224,13 +242,41 @@ class _PharmacyDetailsState extends State<PharmacyDetails> {
           Container(
             padding: EdgeInsets.all(10),
             width: screenSize.width,
-            height: bucket.length == 0 ? 50 : bucketHeight,
-            child: bucket.length == 0 ? Center(child: Text("Empty Bucket! Search your meds below.")) : ListView.builder(
-              itemCount: bucket.length,
+            height: orderList.length == 0 ? 50 : bucketHeight,
+            child: orderList.length == 0 ? Center(child: Text("Empty Bucket!")) : ListView.builder(
+              itemCount: orderList.length,
               itemBuilder: (BuildContext context, int index){
                 return Card(
+                  elevation: 3.0,
                   child: ListTile(
-                    title: Text(bucket[index].medicine.medicineName),
+                    leading: IconButton(
+                      icon: Icon(FontAwesomeIcons.minus, color: Colors.red, size: 18,),
+                      onPressed: (){
+                        if(orderList[index].quantity==1)
+                          {
+                            setState(() {
+                              orderList.removeAt(index);
+                              bucketHeight = bucketHeight - 95;
+                            });
+                          }
+                        else
+                          {
+                            setState(() {
+                              orderList[index].quantity--;
+                            });
+                          }
+                      },
+                    ),
+                    trailing: IconButton(
+                      icon: Icon(FontAwesomeIcons.plus, color: kPrimary, size: 18,),
+                      onPressed: (){
+                        setState(() {
+                          orderList[index].quantity++;
+                        });
+                      },
+                    ),
+                    title: Text(orderList[index].medicineUnit.medicine.medicineName + " " +orderList[index].medicineUnit.unitNumber + " " + orderList[index].medicineUnit.unit.description, style: listTileTitle,),
+                    subtitle: Text("${orderList[index].quantity} x ${orderList[index].medicineUnit.pricePerUnit} = ${orderList[index].quantity * double.parse(orderList[index].medicineUnit.pricePerUnit)}", style: style13500,),
                   ),
                 );
               },
@@ -247,30 +293,66 @@ class _PharmacyDetailsState extends State<PharmacyDetails> {
               ],
             ),
           ),
+          SizedBox(height: 10),
+          medicines.length != 0 ? Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text("Total Price:", style: listTileTitle,),
+              Text("Rs. ${calculatePrice()}", style: listTilePrice,)
+            ],
+          ) : SizedBox(),
+          SizedBox(height: 10,),
+          medicines.length != 0 ? SizedBox(
+            width: screenSize.width*0.5,
+            child: VeridoPrimaryButton(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Request Order",
+                    style: kPrimaryButtonTextStyle,
+                  ),
+                ],
+              ),
+              onPressed: () {
+
+              },
+            ),
+          ) : SizedBox(),
           SizedBox(height: 15,),
-          Text("Search your meds here:", style: style13500,),
+          medicines.length != 0 ? Text("Search your meds here:", style: style13500,) : SizedBox(),
           SizedBox(height: 5,),
-          _searchField(),
-          ListView.builder(
+          medicines.length != 0 ? _searchField() : SizedBox(),
+          show ? filteredMedicines.length != 0 ? ListView.builder(
             shrinkWrap: true,
             physics: BouncingScrollPhysics(),
             itemCount: filteredMedicines.length,
             itemBuilder: (BuildContext context, int index){
               return Card(
                 child: ListTile(
-                  title: Text(filteredMedicines[index].medicine.medicineName, style: listTileTitle,),
+                  title: Text(filteredMedicines[index].medicine.medicineName + " " + filteredMedicines[index].unitNumber + " " + filteredMedicines[index].unit.description, style: listTileTitle,),
                   subtitle: Text(filteredMedicines[index].medicine.description, style: style13500,),
                   trailing: Text("Rs. " + filteredMedicines[index].pricePerUnit, style: listTilePrice,),
                   onTap: (){
                     setState(() {
-                      bucket.add(filteredMedicines[index]);
-                      bucketHeight += 78;
+                      MedicineOrder mo = new MedicineOrder(muId: int.parse(filteredMedicines[index].muId), quantity: 1, medicineUnit: filteredMedicines[index]);
+                      bool s = true;
+                      orderList.forEach((element) {
+                        if (element.medicineUnit.medicine.medicineName == mo.medicineUnit.medicine.medicineName && element.medicineUnit.unit.description == mo.medicineUnit.unit.description)
+                          s = false;
+                      });
+                      if (s)
+                        {
+                          orderList.add(mo);
+                          bucketHeight += 95;
+                        }
                     });
                   },
                 ),
               );
             }
-          )
+          ) : ListTile(title: Text("No results found!"),) : SizedBox()
         ],
       ),
     );
