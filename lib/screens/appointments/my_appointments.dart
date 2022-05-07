@@ -52,7 +52,15 @@ class _MyAppointmentsState extends State<MyAppointments> {
     all_appointments().then((value) {
       var data = jsonDecode(value.body)['appointment'] as List;
       appointments = data.map((appointment) => Appointment.fromJson(appointment)).toList();
+      var user_appointments = [];
       appointments.forEach((element) {
+        if(element.patient.user.userId == UserLoginData.userId)
+          {
+            user_appointments.add(element);
+          }
+      });
+      appointments.clear();
+      user_appointments.forEach((element) {
         if (element.status == "pending")
           pending.add(element);
         else if (element.status == "rejected")

@@ -6,6 +6,7 @@ import 'package:health_care/config/extention.dart';
 import 'package:health_care/models/MedicineOrder.dart';
 import 'package:health_care/models/MedicineUnit.dart';
 import 'package:health_care/models/Pharmacy.dart';
+import 'package:health_care/screens/pharmacy/confirm_order.dart';
 import 'package:health_care/widgets/appbar.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import '../../config/dimensions.dart';
@@ -13,6 +14,7 @@ import '../../config/light_color.dart';
 import '../../config/styles.dart';
 import '../../config/text_styles.dart';
 import '../../services/api_funtions/pharmacy_functions.dart';
+import '../../widgets/drawer.dart';
 import '../../widgets/verido-primary-button.dart';
 
 class PharmacyDetails extends StatefulWidget {
@@ -35,6 +37,9 @@ class _PharmacyDetailsState extends State<PharmacyDetails> {
     double price = 0.0;
     orderList.forEach((element) { 
       price = price + element.quantity * double.parse(element.medicineUnit.pricePerUnit);
+    });
+    setState(() {
+      total = price;
     });
     return price;
   }
@@ -127,6 +132,7 @@ class _PharmacyDetailsState extends State<PharmacyDetails> {
     return status ? Scaffold(body: Center(child: CircularProgressIndicator(color: kPrimary))) : Scaffold(
         key: _scaffoldKey,
       appBar: AppBarWidget(sK: _scaffoldKey,),
+      drawer: NavigationDrawerWidget(),
       body: ListView(
         padding: EdgeInsets.all(16),
         shrinkWrap: true,
@@ -303,7 +309,7 @@ class _PharmacyDetailsState extends State<PharmacyDetails> {
             ],
           ) : SizedBox(),
           SizedBox(height: 10,),
-          medicines.length != 0 ? SizedBox(
+          medicines.length != 0 && orderList.length != 0 ? SizedBox(
             width: screenSize.width*0.5,
             child: VeridoPrimaryButton(
               title: Row(
@@ -316,7 +322,7 @@ class _PharmacyDetailsState extends State<PharmacyDetails> {
                 ],
               ),
               onPressed: () {
-
+                Navigator.push(context, new MaterialPageRoute(builder: (context) => ConfirmOrder(orderList: orderList, bill: total.toStringAsFixed(2), pharmacyId: widget.pharmacy.pharmacyId,)));
               },
             ),
           ) : SizedBox(),

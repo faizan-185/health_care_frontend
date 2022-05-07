@@ -108,6 +108,13 @@ String? emailValidator(value) {
   }
 }
 
+String? textValidator(value){
+  if (value == null || value.isEmpty)
+    return "Cannot be empty!";
+  else
+    return null;
+}
+
 String? optionalEmailValidator(value) {
   if (value == null || value.isEmpty) {
     return null;
