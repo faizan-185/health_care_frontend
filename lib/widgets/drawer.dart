@@ -64,11 +64,11 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
     setState(() {
       imageStatus = true;
     });
-    await http.get(Uri.parse(Urls.baseUrl+"doctor.png")).then((value) {
+    await http.get(Uri.parse(Urls.baseUrl+UserLoginData.image)).then((value) {
       if(value.statusCode==200)
         {
           setState(() {
-            image = NetworkImage(Urls.baseUrl+"doctor.png");
+            image = NetworkImage(Urls.baseUrl+UserLoginData.image);
             imageStatus = false;
           });
         }
@@ -134,13 +134,13 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                   buildMenuItem(
                     text: 'My Appointments',
                     icon: FontAwesomeIcons.calendarCheck,
-                    onClicked: () => Navigator.pushNamedAndRemoveUntil(context, "/MyAppointments", (route) => false),
+                    onClicked: () => Navigator.pushNamed(context, "/MyAppointments"),
                   ),
                   const SizedBox(height: 16),
                   buildMenuItem(
                     text: 'My Orders',
                     icon: FontAwesomeIcons.luggageCart,
-                    onClicked: () => selectedItem(context, 3),
+                    onClicked: () => Navigator.pushNamed(context, "/MyOrders"),
                   ),
                   const SizedBox(height: 24),
                   Divider(color: Colors.white70),

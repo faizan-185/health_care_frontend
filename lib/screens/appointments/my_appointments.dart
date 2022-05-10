@@ -31,7 +31,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
   bool status = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   Widget _header() {
-    return Text("My Appointments", style: secondaryBigHeadingTextStyle).p16;
+    return Text("My Appointments", style: secondaryBigHeadingTextStyle);
   }
   late List<Appointment> appointments = [];
   List<Appointment> pending = [];
@@ -90,39 +90,38 @@ class _MyAppointmentsState extends State<MyAppointments> {
       appBar: AppBarWidget(sK: _scaffoldKey,),
       drawer: NavigationDrawerWidget(),
       body: status ? Center(child: CircularProgressIndicator(color: kPrimary,)) : ListView(
+        padding: EdgeInsets.only(left: 16, right: 16),
         physics: BouncingScrollPhysics(),
         shrinkWrap: true,
         children: [
+          SizedBox(height: 20,),
           _header(),
           SizedBox(height: 10,),
         <Widget>[
-          Container(
-            padding: EdgeInsets.all(20),
-            height: screenSize.height,
-            child: pending.length==0 ? Text("No Pending Appointments!", style: TextStyle(color: Colors.red),) : ListView.builder(
-              itemCount: pending.length,
-                itemBuilder: (BuildContext context, int index) {
-              return AppointmentCard(appointment: pending[index],);
-            })
-          ),
-          Container(
-            padding: EdgeInsets.all(20),
-            height: screenSize.height,
-            child: rejected.length==0 ? Text("No Rejected Appointments!", style: TextStyle(color: Colors.red),) : ListView.builder(
-                itemCount: rejected.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return AppointmentCard(appointment: rejected[index],);
-                })
-          ),
-          Container(
-            padding: EdgeInsets.all(20),
-            height: screenSize.height,
-            child: accepted.length==0 ? Text("No Accepted Appointments!", style: TextStyle(color: Colors.red),) : ListView.builder(
-                itemCount: accepted.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return AppointmentCard(appointment: accepted[index],);
-                })
-          ),
+          pending.length==0 ? Text("No Pending Appointments!", style: TextStyle(color: Colors.red),) : ListView.builder(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            physics: ScrollPhysics(),
+            itemCount: pending.length,
+              itemBuilder: (BuildContext context, int index) {
+            return AppointmentCard(appointment: pending[index],);
+          }),
+          rejected.length==0 ? Text("No Rejected Appointments!", style: TextStyle(color: Colors.red),) : ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              physics: ScrollPhysics(),
+              itemCount: rejected.length,
+              itemBuilder: (BuildContext context, int index) {
+                return AppointmentCard(appointment: rejected[index],);
+              }),
+          accepted.length==0 ? Text("No Accepted Appointments!", style: TextStyle(color: Colors.red),) : ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              physics: ScrollPhysics(),
+              itemCount: accepted.length,
+              itemBuilder: (BuildContext context, int index) {
+                return AppointmentCard(appointment: accepted[index],);
+              }),
         ].elementAt(_selectedIndex),
           SizedBox(height: 30,)
         ],

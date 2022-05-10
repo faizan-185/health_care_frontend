@@ -2,12 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:health_care/logs/Log.dart';
 import 'package:health_care/models/MedicineOrder.dart';
 import 'package:health_care/services/api_funtions/pharmacy_functions.dart';
 import 'package:health_care/widgets/appbar.dart';
 
 import '../../config/dimensions.dart';
 import '../../config/styles.dart';
+import '../../logs/db_helper.dart';
 import '../../widgets/drawer.dart';
 import '../../widgets/snackbars.dart';
 import '../../widgets/verido-form-field.dart';
@@ -17,7 +19,8 @@ class ConfirmOrder extends StatefulWidget {
   List<MedicineOrder> orderList;
   String bill;
   String pharmacyId;
-  ConfirmOrder({Key? key, required this.orderList, required this.bill, required this.pharmacyId}) : super(key: key);
+  String pname;
+  ConfirmOrder({Key? key, required this.orderList, required this.bill, required this.pharmacyId, required this.pname}) : super(key: key);
 
   @override
   State<ConfirmOrder> createState() => _ConfirmOrderState();
@@ -321,6 +324,13 @@ class _ConfirmOrderState extends State<ConfirmOrder> {
                           if(response.statusCode==200)
                           {
                             ScaffoldMessenger.of(context).showSnackBar(snackBarSuccess(data['message']));
+                            var handler = DatabaseHandler();
+                            handler.initializeDB().whenComplete(() async {
+                              Log l = new Log(name: widget.pname, datetime: DateTime.now().toString(), type: "order", bill: widget.bill);
+                              await handler.insertLog(l);
+                              setState(() {});
+                            });
+                            Navigator.pushNamedAndRemoveUntil(context, '/MyOrders', (route) => false);
                           }
                           else
                           {

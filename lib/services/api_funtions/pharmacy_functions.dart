@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:health_care/config/api_headers.dart';
+import 'package:health_care/config/data_classes.dart';
 import 'package:health_care/config/urls.dart';
 import 'package:http/http.dart' as http;
 
@@ -31,5 +32,11 @@ Future<http.Response> createOrder(List<MedicineOrder> orderList, String pharmacy
     "medicine": orderList
   };
   var response = await http.post(Uri.parse(Urls.baseUrl + Urls.createOrder), headers: jsonHeaderWithAuth, body: jsonEncode(data));
+  return response;
+}
+
+Future<http.Response> getAllOrders() async
+{
+  var response = await http.get(Uri.parse(Urls.baseUrl + Urls.getAllOrders + UserLoginData.userId), headers: jsonHeaderWithAuth);
   return response;
 }

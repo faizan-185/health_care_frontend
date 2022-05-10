@@ -322,7 +322,7 @@ class _PharmacyDetailsState extends State<PharmacyDetails> {
                 ],
               ),
               onPressed: () {
-                Navigator.push(context, new MaterialPageRoute(builder: (context) => ConfirmOrder(orderList: orderList, bill: total.toStringAsFixed(2), pharmacyId: widget.pharmacy.pharmacyId,)));
+                Navigator.push(context, new MaterialPageRoute(builder: (context) => ConfirmOrder(orderList: orderList, bill: total.toStringAsFixed(2), pharmacyId: widget.pharmacy.pharmacyId, pname: widget.pharmacy.pharmacyName)));
               },
             ),
           ) : SizedBox(),

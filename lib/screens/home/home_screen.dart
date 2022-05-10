@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:health_care/config/data_classes.dart';
 import 'package:health_care/config/dimensions.dart';
 import 'package:health_care/config/extention.dart';
@@ -9,12 +10,15 @@ import 'package:health_care/config/light_color.dart';
 import 'package:health_care/config/styles.dart';
 import 'package:health_care/config/text_styles.dart';
 import 'package:health_care/config/themes.dart';
+import 'package:health_care/logs/Log.dart';
 import 'package:health_care/services/api_funtions/hospital_functions.dart';
 import 'package:health_care/services/api_funtions/pharmacy_functions.dart';
 import 'package:health_care/services/functions.dart';
 import 'package:health_care/widgets/appbar.dart';
 import 'package:health_care/widgets/category-card.dart';
 import 'package:health_care/widgets/drawer.dart';
+
+import '../../logs/db_helper.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -89,6 +93,8 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  var handler;
+
   @override
   void initState() {
     super.initState();
@@ -112,6 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     getHospitalCount();
     getPharmaciesCount();
+    handler = DatabaseHandler();
   }
 
   Widget _header() {
@@ -201,7 +208,50 @@ class _HomeScreenState extends State<HomeScreen> {
                 //     subtitle: "more than 100", titleStyle: authSubTextStyle1, subtitleStyle: floatingButtonText),
               ],
             ),
-          )
+          ),
+          Text("Recent Activities,", style: secondaryBigHeadingTextStyle).hP16,
+          SizedBox(height: 10,),
+          FutureBuilder(
+            future: handler.retrieveLogs(),
+            builder: (BuildContext context, AsyncSnapshot<List<Log>> snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                  reverse: true,
+                  shrinkWrap: true,
+                  itemCount: snapshot.data?.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Dismissible(
+                      direction: DismissDirection.endToStart,
+                      background: Container(
+                        color: Colors.red,
+                        alignment: Alignment.centerRight,
+                        padding: EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Icon(Icons.delete_forever),
+                      ),
+                      key: ValueKey<int>(snapshot.data![index].id!),
+                      onDismissed: (DismissDirection direction) async {
+                        await handler.deleteUser(snapshot.data![index].id!);
+                        setState(() {
+                          snapshot.data!.remove(snapshot.data![index]);
+                        });
+                      },
+                      child: Card(
+                        elevation: 3.0,
+                          child: ListTile(
+                            leading: Icon(snapshot.data![index].type == "order" ? FontAwesomeIcons.luggageCart : FontAwesomeIcons.calendarCheck, color: kPrimary, ),
+                            title: Text(snapshot.data![index].type == "order" ? "Purchased Meds" : "Scheduled Appointment", style: normalBlackTitleTextStyle,),
+                            subtitle: Text(snapshot.data![index].name, style: listTileTitle,),
+                            trailing: Text(snapshot.data![index].type == "order" ? "Rs. " + snapshot.data![index].bill : "", style: listTilePrice,),
+                          )),
+                    );
+                  },
+                );
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
+            },
+          ).hP16,
+
         ],
       ),
     );

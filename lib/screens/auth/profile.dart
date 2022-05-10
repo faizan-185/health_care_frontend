@@ -273,7 +273,7 @@ class _ProfileState extends State<Profile> {
                         borderSide: BorderSide(color: kPrimary, width: 1.0),
                           borderRadius: BorderRadius.all(Radius.circular(10.0))
                       ),
-                      hintText: UserLoginData.area,
+                      hintText: UserLoginData.area == 'null' ? "Enter New" : UserLoginData.area,
                     ),),
                 !text_state[0] ? IconButton(icon: new Icon(Icons.edit, color: kPrimary,), onPressed: () {
                   setState(() {
@@ -316,7 +316,7 @@ class _ProfileState extends State<Profile> {
                         borderSide: BorderSide(color: kPrimary, width: 1.0),
                         borderRadius: BorderRadius.all(Radius.circular(10.0))
                     ),
-                    hintText: UserLoginData.city,
+                    hintText: UserLoginData.city == 'null' ? "Enter New" : UserLoginData.city,
                   ),),
                 !text_state[1] ? IconButton(icon: new Icon(Icons.edit, color: kPrimary,), onPressed: () {
                   setState(() {
@@ -359,7 +359,7 @@ class _ProfileState extends State<Profile> {
                         borderSide: BorderSide(color: kPrimary, width: 1.0),
                         borderRadius: BorderRadius.all(Radius.circular(10.0))
                     ),
-                    hintText: UserLoginData.country,
+                    hintText: UserLoginData.country == 'null' ? "Enter New" : UserLoginData.country,
                   ),),
                 !text_state[2] ? IconButton(icon: new Icon(Icons.edit, color: kPrimary,), onPressed: () {
                   setState(() {
@@ -402,7 +402,7 @@ class _ProfileState extends State<Profile> {
                         borderSide: BorderSide(color: kPrimary, width: 1.0),
                         borderRadius: BorderRadius.all(Radius.circular(10.0))
                     ),
-                    hintText: UserLoginData.postalCode,
+                    hintText: UserLoginData.postalCode == 'null' ? "Enter New" : UserLoginData.postalCode,
                   ),),
                 !text_state[3] ? IconButton(icon: new Icon(Icons.edit, color: kPrimary,), onPressed: () {
                   setState(() {
@@ -445,7 +445,7 @@ class _ProfileState extends State<Profile> {
                         borderSide: BorderSide(color: kPrimary, width: 1.0),
                         borderRadius: BorderRadius.all(Radius.circular(10.0))
                     ),
-                    hintText: UserLoginData.phone,
+                    hintText: UserLoginData.phone == 'null' ? "Enter New" : UserLoginData.phone,
                   ),),
                 !text_state[4] ? IconButton(icon: new Icon(Icons.edit, color: kPrimary,), onPressed: () {
                   setState(() {

@@ -10,3 +10,14 @@ class MedicineOrder{
     'quantity': quantity,
   };
 }
+
+class MedicineOrders{
+  String moId;
+  MedicineUnit medicineUnit;
+  String quantity;
+  MedicineOrders({required this.moId, required this.quantity, required this.medicineUnit});
+  factory MedicineOrders.fromJson(dynamic json)
+  {
+    return MedicineOrders(moId: json['moId'].toString(), quantity: json['quantity'].toString(), medicineUnit: MedicineUnit.fromJson(json['MedicineUnit']));
+  }
+}

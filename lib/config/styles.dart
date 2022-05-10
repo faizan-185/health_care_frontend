@@ -240,6 +240,10 @@ TextStyle tagsStyle(color) {
 
 TextStyle style12400 = GoogleFonts.poppins(
     color: Colors.black, fontWeight: FontWeight.w400, fontSize: 12);
+TextStyle style12400Orange = GoogleFonts.poppins(
+    color: Colors.orange, fontWeight: FontWeight.w400, fontSize: 12);
+TextStyle style12400Green = GoogleFonts.poppins(
+    color: Colors.green, fontWeight: FontWeight.w400, fontSize: 12);
 TextStyle operationSubheading = GoogleFonts.poppins(
     color: kGeneralWhite, fontWeight: FontWeight.w500, fontSize: 14);
 TextStyle style14500 = GoogleFonts.poppins(

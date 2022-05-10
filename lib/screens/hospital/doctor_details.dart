@@ -13,6 +13,8 @@ import 'package:health_care/widgets/drawer.dart';
 import 'package:health_care/widgets/verido-primary-button.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
+import '../../logs/Log.dart';
+import '../../logs/db_helper.dart';
 import '../../widgets/snackbars.dart';
 import '../../widgets/verido-form-field.dart';
 
@@ -249,6 +251,16 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                               if(code==200)
                               {
                                 ScaffoldMessenger.of(context).showSnackBar(snackBarSuccess(data['message']));
+                                var handler = DatabaseHandler();
+                                handler.initializeDB().whenComplete(() async {
+                                  Log l = new Log(
+                                      name: widget.doctor.user.displayName,
+                                      datetime: DateTime.now().toString(),
+                                      type: "appointment",
+                                      bill: "0");
+                                  await handler.insertLog(l);
+                                  setState(() {});
+                                });
                               }
                               else
                               {
