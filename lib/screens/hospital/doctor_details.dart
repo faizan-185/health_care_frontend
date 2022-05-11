@@ -27,6 +27,8 @@ class DoctorDetails extends StatefulWidget {
 }
 
 class _DoctorDetailsState extends State<DoctorDetails> {
+  TextEditingController reasonController = new TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   bool status = false;
   double op = 1.0;
   bool notFound = false;
@@ -198,85 +200,75 @@ class _DoctorDetailsState extends State<DoctorDetails> {
             ],
           ),
           SizedBox(height: 10,),
-          SizedBox(
-            width: screenSize.width*0.5,
-            child: VeridoPrimaryButton(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Send Request For Appointment",
-                    style: kPrimaryButtonTextStyle,
-                  ),
-                ],
-              ),
-              onPressed: () {
-                TextEditingController reasonController = new TextEditingController();
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Expanded(
-                      child: AlertDialog(
-                        title: Text("Appointment Request"),
-                        content: TextFormField(
-                        controller: reasonController,
-                        keyboardType: getKeyboardType(
-                            inputType: VeridoInputType.text),
-                        style: kFormTextStyle,
-                        validator: emailValidator,
-                        decoration: veridoInputDecoration(
-                            inputType: VeridoInputType.text,
-                            hint: "Enter Reason"),
-                      ),
-                        actions: [
-                          FlatButton(
-                            textColor: Colors.black,
-                            onPressed: () async {
-                              Navigator.pop(context);
-                            },
-                            child: Text('CANCEL'),
-                          ),
-                          FlatButton(
-                            textColor: Colors.black,
-                            onPressed: () async {
-
-                              var data;
-                              var code = 0;
-                              await send_request(UserLoginData.patient_id, widget.doctor.doctorId, reasonController.text)
-                                  .then((response) {
-                                print(response.body);
-                                data = jsonDecode(response.body);
-                                code = response.statusCode;
+          Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: reasonController,
+                  keyboardType: getKeyboardType(
+                      inputType: VeridoInputType.text),
+                  style: kFormTextStyle,
+                  validator: textValidator,
+                  decoration: veridoInputDecoration(
+                      inputType: VeridoInputType.text,
+                      hint: "Enter Reason"),
+                ),
+                SizedBox(height: 10,),
+                SizedBox(
+                  width: screenSize.width,
+                  child: VeridoPrimaryButton(
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Send Request For Appointment",
+                          style: kPrimaryButtonTextStyle,
+                        ),
+                      ],
+                    ),
+                    onPressed: () async {
+                      if(_formKey.currentState!.validate())
+                        {
+                          setState(() {
+                            status = true;
+                          });
+                          var data;
+                          var code = 0;
+                          await send_request(UserLoginData.patient_id, widget.doctor.doctorId, reasonController.text)
+                              .then((response) {
+                            print(response.body);
+                            setState(() {
+                              status = false;
+                            });
+                            data = jsonDecode(response.body);
+                            code = response.statusCode;
+                          });
+                          if(code==200)
+                          {
+                            ScaffoldMessenger.of(context).showSnackBar(snackBarSuccess(data['message']));
+                            var handler = DatabaseHandler();
+                            handler.initializeDB().whenComplete(() async {
+                              Log l = new Log(
+                                  name: widget.doctor.user.displayName,
+                                  datetime: DateTime.now().toString(),
+                                  type: "appointment",
+                                  bill: "0");
+                              await handler.insertLog(l);
+                              setState(() {
+                                Navigator.pushNamed(context, '/MyAppointments');
                               });
-                              if(code==200)
-                              {
-                                ScaffoldMessenger.of(context).showSnackBar(snackBarSuccess(data['message']));
-                                var handler = DatabaseHandler();
-                                handler.initializeDB().whenComplete(() async {
-                                  Log l = new Log(
-                                      name: widget.doctor.user.displayName,
-                                      datetime: DateTime.now().toString(),
-                                      type: "appointment",
-                                      bill: "0");
-                                  await handler.insertLog(l);
-                                  setState(() {});
-                                });
-                              }
-                              else
-                              {
-                                ScaffoldMessenger.of(context).showSnackBar(snackBarError(data['message']));
-                              }
-                              Navigator.pop(context);
-                            },
-                            child: Text('SEND'),
-                          ),
-                        ],
-                      ),
-
-                    );
-                  },
-                );
-              },
+                            });
+                          }
+                          else
+                          {
+                            ScaffoldMessenger.of(context).showSnackBar(snackBarError(data['message']));
+                          }
+                        }
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
           SizedBox(height: 10,),

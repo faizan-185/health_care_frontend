@@ -209,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          Text("Recent Activities,", style: secondaryBigHeadingTextStyle).hP16,
+          Text("Recent Activities", style: secondaryBigHeadingTextStyle).hP16,
           SizedBox(height: 10,),
           FutureBuilder(
             future: handler.retrieveLogs(),
@@ -238,9 +238,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Card(
                         elevation: 3.0,
                           child: ListTile(
+                            isThreeLine: true,
                             leading: Icon(snapshot.data![index].type == "order" ? FontAwesomeIcons.luggageCart : FontAwesomeIcons.calendarCheck, color: kPrimary, ),
                             title: Text(snapshot.data![index].type == "order" ? "Purchased Meds" : "Scheduled Appointment", style: normalBlackTitleTextStyle,),
-                            subtitle: Text(snapshot.data![index].name, style: listTileTitle,),
+                            subtitle: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(snapshot.data![index].name, style: listTileTitle,),
+                                Text(snapshot.data![index].datetime.split('.')[0], style: style13500,)
+                              ],
+                            ),
                             trailing: Text(snapshot.data![index].type == "order" ? "Rs. " + snapshot.data![index].bill : "", style: listTilePrice,),
                           )),
                     );
