@@ -20,7 +20,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
       children: [
         Container(
           padding: EdgeInsets.all(15),
-          height: 230,
+
           width: screenSize.width,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(20)),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:health_care/config/dimensions.dart';
 import 'package:health_care/config/extention.dart';
 import 'package:health_care/config/styles.dart';
 
@@ -21,7 +22,7 @@ class _CategoryCardState extends State<CategoryCard> {
     return Container(
       margin: EdgeInsets.only(left: 10, right: 10, bottom: 20, top: 10),
       height: 250,
-      width: 150,
+      width: screenSize.width * 0.412,
       decoration: BoxDecoration(
         color: widget.color,
         borderRadius: BorderRadius.all(Radius.circular(20)),

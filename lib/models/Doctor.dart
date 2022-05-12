@@ -74,3 +74,22 @@ class DiseaseTreatedByDr{
   }
 }
 
+class Doctor1{
+  late User user;
+  late String doctorId;
+  late String fee;
+  late String experience;
+  late String isAvailable;
+  late String availablityDays;
+  late String activeHours;
+  Doctor1({required this.user, required this.doctorId, required this.fee, required this.experience,
+    required this.isAvailable, required this.availablityDays, required this.activeHours
+  });
+  factory Doctor1.fromJson(dynamic json){
+    return Doctor1(user: User.fromJson(json['User']), doctorId: json['doctorId'].toString(),
+        fee: json['fee'].toString(), experience: json['experience'].toString(),
+        isAvailable: json['isAvailable'].toString(), availablityDays: json['availablityDays'].toString(),
+        activeHours: json['activeHours'].toString()
+    );
+  }
+}

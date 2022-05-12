@@ -249,9 +249,18 @@ class _LoginScreen extends State<LoginScreen> {
                                               context, '/HomeScreen');
                                         }
                                         else{
-                                          ScaffoldMessenger.of(context).showSnackBar(snackBarError("Sorry! You don't have access."));
+                                          validateDoctor(UserLoginData.userId).then((value1) {
+                                            if(value1)
+                                              {
+                                                Navigator.pushReplacementNamed(
+                                                    context, '/DoctorHomeScreen');
+                                              }
+                                            else
+                                              {
+                                                ScaffoldMessenger.of(context).showSnackBar(snackBarError("Sorry! You don't have access."));
+                                              }
+                                          });
                                         }
-
                                       });
                                     }
                                   else

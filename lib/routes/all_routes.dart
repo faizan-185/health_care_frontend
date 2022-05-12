@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:health_care/screens/appointments/my_appointments.dart';
 import 'package:health_care/screens/auth/profile.dart';
+import 'package:health_care/screens/home/second_home_screen.dart';
 import 'package:health_care/screens/hospital/all_hospitals_screen.dart';
 import 'package:health_care/routes/route.dart';
 import 'package:health_care/screens/auth/login.dart';
@@ -28,7 +29,8 @@ class Routes {
       '/ProfileScreen': (_) => Profile(),
       '/MyAppointments': (_) => MyAppointments(),
       '/AllPharmacies': (_) => AllPharmacies(),
-      '/MyOrders': (_) => MyOrders()
+      '/MyOrders': (_) => MyOrders(),
+      '/DoctorHomeScreen': (_) => DoctorHomeScreen()
     };
   }
 

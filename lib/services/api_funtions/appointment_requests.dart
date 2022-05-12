@@ -1,3 +1,4 @@
+import 'package:health_care/config/data_classes.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:health_care/config/api_headers.dart';
@@ -21,6 +22,14 @@ Future<http.Response> all_appointments() async
 {
   var response = await http.get(
       Uri.parse(Urls.baseUrl+Urls.getAllAppointments),
+      headers: jsonHeaderWithAuth);
+  return response;
+}
+
+Future<http.Response> all_appointments_of_dr() async
+{
+  var response = await http.get(
+      Uri.parse(Urls.baseUrl+Urls.getAllAppointmentsByDr + UserLoginData.doctorId),
       headers: jsonHeaderWithAuth);
   return response;
 }

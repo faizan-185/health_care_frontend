@@ -15,4 +15,5 @@ class UserLoginData{
   static String postalCode = "";
   static String code = "";
   static String patient_id = "";
+  static String doctorId = "";
 }

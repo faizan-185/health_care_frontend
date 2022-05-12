@@ -22,4 +22,6 @@ class Urls{
   static String getAllMedicineInPharmacyByPharmacy = "medicine-pharmacy/get-by-pharmacy/";
   static String createOrder = "order/create";
   static String getAllOrders = "order/get-all-for-user/";
+  static String getAllDoctors = "doctor/get-all";
+  static String getAllAppointmentsByDr = "appointment/get-by-dr/";
 }
