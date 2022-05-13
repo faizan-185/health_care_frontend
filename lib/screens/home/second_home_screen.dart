@@ -12,12 +12,14 @@ import 'package:health_care/config/text_styles.dart';
 import 'package:health_care/config/themes.dart';
 import 'package:health_care/logs/Log.dart';
 import 'package:health_care/models/appointment.dart';
+import 'package:health_care/screens/appointments/upcoming.dart';
 import 'package:health_care/services/api_funtions/appointment_requests.dart';
 import 'package:health_care/services/api_funtions/hospital_functions.dart';
 import 'package:health_care/services/api_funtions/pharmacy_functions.dart';
 import 'package:health_care/services/functions.dart';
 import 'package:health_care/widgets/appbar.dart';
 import 'package:health_care/widgets/category-card.dart';
+import 'package:health_care/widgets/doctor_drawer.dart';
 import 'package:health_care/widgets/drawer.dart';
 
 import '../../logs/db_helper.dart';
@@ -56,21 +58,28 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
   List<Appointment> pending_appointments = [];
   List<Appointment> upcoming_appointments = [];
 
+  DateTime getDateTime(String dateTime)
+  {
+    String dt = dateTime.split(' At ').join(" ");
+    return DateTime.parse(dt);
+  }
+
   Future<void> get_appointments()async{
     setState(() {
       status = true;
     });
     await all_appointments_of_dr().then((value) {
-      print(value.body);
       var data = jsonDecode(value.body);
       if(value.statusCode==200)
       {
         var d = data['appointment'] as List;
         all_appointments = d.map((e) => Appointment.fromJson(e)).toList();
+        // print(getDateTime(all_appointments[0].dateTime));
+        // print(DateTime.now());
         all_appointments.forEach((element) {
           if(element.status == "pending")
             pending_appointments.add(element);
-          else if(element.status == "accepted")
+          else if(element.status == "accepted" && getDateTime(element.appointmentDateTime).isAfter(DateTime.now()))
             upcoming_appointments.add(element);
         });
         setState(() {
@@ -159,7 +168,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
       key: _scaffoldKey,
       backgroundColor: kBackground,
       appBar: AppBarWidget(sK: _scaffoldKey,),
-      drawer: NavigationDrawerWidget(),
+      drawer: SecondDrawer(),
       body: ListView(
         physics: BouncingScrollPhysics(),
         shrinkWrap: true,
@@ -177,7 +186,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
               children: [
                 GestureDetector(
                   onTap: (){
-
+                    Navigator.pushNamed(context, '/PendingAppointments');
                   },
                   child: AbsorbPointer(
                     child: CategoryCard(color: color[0], lightColor: lightColor[0], title: "Pending",
@@ -187,7 +196,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                 ),
                 GestureDetector(
                   onTap: (){
-
+                      Navigator.push(context, new MaterialPageRoute(builder: (context) => UpcomingAppointments(appointments: upcoming_appointments)));
                   },
                   child: AbsorbPointer(
                     child: CategoryCard(color: color[1], lightColor: lightColor[1], title: "Upcoming",
@@ -202,8 +211,8 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
           Text("Recent Activities", style: secondaryBigHeadingTextStyle).hP16,
           SizedBox(height: 10,),
           FutureBuilder(
-            future: handler.retrieveLogs(),
-            builder: (BuildContext context, AsyncSnapshot<List<Log>> snapshot) {
+            future: handler.retrieveDrLogs(),
+            builder: (BuildContext context, AsyncSnapshot<List<DrLog>> snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(
                   reverse: true,
@@ -229,8 +238,8 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                           elevation: 3.0,
                           child: ListTile(
                             isThreeLine: true,
-                            leading: Icon(snapshot.data![index].type == "order" ? FontAwesomeIcons.luggageCart : FontAwesomeIcons.calendarCheck, color: kPrimary, ),
-                            title: Text(snapshot.data![index].type == "order" ? "Purchased Meds" : "Scheduled Appointment", style: normalBlackTitleTextStyle,),
+                            leading: Icon(snapshot.data![index].type == "accept" ? FontAwesomeIcons.check : FontAwesomeIcons.times, color: kPrimary, ),
+                            title: Text(snapshot.data![index].type == "accept" ? "Accepted Appointment" : "Rejected Appointment", style: normalBlackTitleTextStyle,),
                             subtitle: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -239,7 +248,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                                 Text(snapshot.data![index].datetime.split('.')[0], style: style13500,)
                               ],
                             ),
-                            trailing: Text(snapshot.data![index].type == "order" ? "Rs. " + snapshot.data![index].bill : "", style: listTilePrice,),
                           )),
                     );
                   },
@@ -249,7 +257,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
               }
             },
           ).hP16,
-
         ],
       ),
     );

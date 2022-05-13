@@ -47,6 +47,8 @@ dependencies:
   flutter_image_compress: ^1.1.0
   url_launcher: ^6.0.20
   path: ^1.8.0
+  date_format: ^2.0.6
+  flutter_launcher_icons: ^0.9.2
 
 dev_dependencies:
   flutter_test:
@@ -54,7 +56,10 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/icon.png"
 # The following section is specific to Flutter.
 flutter:
 

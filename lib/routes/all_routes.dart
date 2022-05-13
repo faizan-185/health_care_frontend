@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:health_care/screens/appointments/accept_request.dart';
 import 'package:health_care/screens/appointments/my_appointments.dart';
+import 'package:health_care/screens/appointments/pending.dart';
 import 'package:health_care/screens/auth/profile.dart';
 import 'package:health_care/screens/home/second_home_screen.dart';
 import 'package:health_care/screens/hospital/all_hospitals_screen.dart';
@@ -14,6 +16,8 @@ import 'package:health_care/screens/pharmacy/all_pharmacies.dart';
 import 'package:health_care/screens/pharmacy/my_orders.dart';
 import 'package:health_care/screens/pharmacy/pharmacy_details.dart';
 import 'package:health_care/screens/welcome/splash.dart';
+
+import '../screens/appointments/dr_appointments.dart';
 
 class Routes {
   static Map<String, WidgetBuilder> getRoute() {
@@ -30,7 +34,9 @@ class Routes {
       '/MyAppointments': (_) => MyAppointments(),
       '/AllPharmacies': (_) => AllPharmacies(),
       '/MyOrders': (_) => MyOrders(),
-      '/DoctorHomeScreen': (_) => DoctorHomeScreen()
+      '/DoctorHomeScreen': (_) => DoctorHomeScreen(),
+      '/PendingAppointments': (_) => Pending(),
+      '/DrAppointments': (_) => DrAppointments()
     };
   }
 

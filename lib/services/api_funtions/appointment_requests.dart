@@ -33,3 +33,21 @@ Future<http.Response> all_appointments_of_dr() async
       headers: jsonHeaderWithAuth);
   return response;
 }
+
+Future<http.Response> accept_request(String dateTime, String appointmentId) async {
+  var body = {
+    "appointmentDateTime": dateTime,
+    "status": "accepted"
+  };
+  var response = await http.patch(Uri.parse(Urls.baseUrl + Urls.acceptAppointmentRequest + appointmentId), headers: jsonHeaderWithAuth, body: jsonEncode(body));
+  return response;
+}
+
+Future<http.Response> reject_request(String appointmentId) async {
+  var body = {
+    "appointmentDateTime": null,
+    "status": "rejected"
+  };
+  var response = await http.patch(Uri.parse(Urls.baseUrl + Urls.acceptAppointmentRequest + appointmentId), headers: jsonHeaderWithAuth, body: jsonEncode(body));
+  return response;
+}

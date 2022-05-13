@@ -24,4 +24,5 @@ class Urls{
   static String getAllOrders = "order/get-all-for-user/";
   static String getAllDoctors = "doctor/get-all";
   static String getAllAppointmentsByDr = "appointment/get-by-dr/";
+  static String acceptAppointmentRequest = "appointment/update/";
 }

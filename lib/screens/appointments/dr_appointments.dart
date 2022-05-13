@@ -17,16 +17,17 @@ import 'package:health_care/services/functions.dart';
 import 'package:health_care/widgets/appbar.dart';
 import 'package:health_care/widgets/appointment_card.dart';
 import 'package:health_care/widgets/category-card.dart';
+import 'package:health_care/widgets/doctor_drawer.dart';
 import 'package:health_care/widgets/drawer.dart';
 
-class MyAppointments extends StatefulWidget {
-  const MyAppointments({Key? key}) : super(key: key);
+class DrAppointments extends StatefulWidget {
+  const DrAppointments({Key? key}) : super(key: key);
 
   @override
-  State<MyAppointments> createState() => _MyAppointmentsState();
+  State<DrAppointments> createState() => _DrAppointmentsState();
 }
 
-class _MyAppointmentsState extends State<MyAppointments> {
+class _DrAppointmentsState extends State<DrAppointments> {
 
   bool status = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -49,18 +50,10 @@ class _MyAppointmentsState extends State<MyAppointments> {
     setState(() {
       status = true;
     });
-    all_appointments().then((value) {
+    all_appointments_of_dr().then((value) {
       var data = jsonDecode(value.body)['appointment'] as List;
       appointments = data.map((appointment) => Appointment.fromJson(appointment)).toList();
-      var user_appointments = [];
       appointments.forEach((element) {
-        if(element.patient.user.userId == UserLoginData.userId)
-          {
-            user_appointments.add(element);
-          }
-      });
-      appointments.clear();
-      user_appointments.forEach((element) {
         if (element.status == "pending")
           pending.add(element);
         else if (element.status == "rejected")
@@ -88,7 +81,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
       key: _scaffoldKey,
       backgroundColor: kBackground,
       appBar: AppBarWidget(sK: _scaffoldKey,),
-      drawer: NavigationDrawerWidget(),
+      drawer: SecondDrawer(),
       body: status ? Center(child: CircularProgressIndicator(color: kPrimary,)) : ListView(
         padding: EdgeInsets.only(left: 16, right: 16),
         physics: BouncingScrollPhysics(),
@@ -97,35 +90,35 @@ class _MyAppointmentsState extends State<MyAppointments> {
           SizedBox(height: 20,),
           _header(),
           SizedBox(height: 10,),
-        <Widget>[
-          pending.length==0 ? Text("No Pending Appointments!", style: TextStyle(color: Colors.red),) : ListView.builder(
-            reverse: true,
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            physics: ScrollPhysics(),
-            itemCount: pending.length,
-              itemBuilder: (BuildContext context, int index) {
-            return AppointmentCard(appointment: pending[index],);
-          }),
-          rejected.length==0 ? Text("No Rejected Appointments!", style: TextStyle(color: Colors.red),) : ListView.builder(
-              scrollDirection: Axis.vertical,
-              reverse: true,
-              shrinkWrap: true,
-              physics: ScrollPhysics(),
-              itemCount: rejected.length,
-              itemBuilder: (BuildContext context, int index) {
-                return AppointmentCard(appointment: rejected[index],);
-              }),
-          accepted.length==0 ? Text("No Accepted Appointments!", style: TextStyle(color: Colors.red),) : ListView.builder(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              reverse: true,
-              physics: ScrollPhysics(),
-              itemCount: accepted.length,
-              itemBuilder: (BuildContext context, int index) {
-                return AppointmentCard(appointment: accepted[index],);
-              }),
-        ].elementAt(_selectedIndex),
+          <Widget>[
+            pending.length==0 ? Text("No Pending Appointments!", style: TextStyle(color: Colors.red),) : ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                reverse: true,
+                physics: ScrollPhysics(),
+                itemCount: pending.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return DoctorAppointmentCard(appointment: pending[index], next: false,);
+                }),
+            rejected.length==0 ? Text("No Rejected Appointments!", style: TextStyle(color: Colors.red),) : ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                reverse: true,
+                physics: ScrollPhysics(),
+                itemCount: rejected.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return DoctorAppointmentCard(appointment: rejected[index], next: false,);
+                }),
+            accepted.length==0 ? Text("No Accepted Appointments!", style: TextStyle(color: Colors.red),) : ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                reverse: true,
+                physics: ScrollPhysics(),
+                itemCount: accepted.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return DoctorAppointmentCard(appointment: accepted[index], next: false,);
+                }),
+          ].elementAt(_selectedIndex),
           SizedBox(height: 30,)
         ],
       ),

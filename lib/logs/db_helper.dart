@@ -11,6 +11,9 @@ class DatabaseHandler {
         await database.execute(
           "CREATE TABLE log(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, datetime TEXT NOT NULL, type TEXT NOT NULL, bill TEXT)",
         );
+        await database.execute(
+          "CREATE TABLE dr_log(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, datetime TEXT NOT NULL, type TEXT NOT NULL)",
+        );
       },
       version: 1,
     );
@@ -27,5 +30,17 @@ class DatabaseHandler {
     final Database db = await initializeDB();
     final List<Map<String, Object?>> queryResult = await db.query('log', limit: 5, orderBy: "id");
     return queryResult.map((e) => Log.fromMap(e)).toList();
+  }
+  Future<int> insertDrLog(DrLog log) async {
+    int result = 0;
+    final Database db = await initializeDB();
+    result = await db.insert('dr_log', log.toMap());
+    return result;
+  }
+
+  Future<List<DrLog>> retrieveDrLogs() async {
+    final Database db = await initializeDB();
+    final List<Map<String, Object?>> queryResult = await db.query('dr_log', limit: 5, orderBy: "id");
+    return queryResult.map((e) => DrLog.fromMap(e)).toList();
   }
 }

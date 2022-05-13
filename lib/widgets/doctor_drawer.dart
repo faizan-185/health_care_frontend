@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:health_care/config/data_classes.dart';
 import 'package:health_care/config/styles.dart';
@@ -6,7 +7,6 @@ import 'package:health_care/config/urls.dart';
 import 'package:health_care/screens/auth/profile.dart';
 import 'package:health_care/screens/home/home_screen.dart';
 import 'package:http/http.dart' as http;
-
 
 class ButtonWidget extends StatefulWidget {
   final IconData icon;
@@ -47,14 +47,14 @@ class _ButtonWidgetState extends State<ButtonWidget> {
   );
 }
 
+class SecondDrawer extends StatefulWidget {
+  const SecondDrawer({Key? key}) : super(key: key);
 
-
-class NavigationDrawerWidget extends StatefulWidget {
   @override
-  State<NavigationDrawerWidget> createState() => _NavigationDrawerWidgetState();
+  State<SecondDrawer> createState() => _SecondDrawerState();
 }
 
-class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
+class _SecondDrawerState extends State<SecondDrawer> {
   final padding = EdgeInsets.symmetric(horizontal: 20);
   var image;
   bool imageStatus = false;
@@ -64,12 +64,12 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
     });
     await http.get(Uri.parse(Urls.baseUrl+UserLoginData.image)).then((value) {
       if(value.statusCode==200)
-        {
-          setState(() {
-            image = NetworkImage(Urls.baseUrl+UserLoginData.image);
-            imageStatus = false;
-          });
-        }
+      {
+        setState(() {
+          image = NetworkImage(Urls.baseUrl+UserLoginData.image);
+          imageStatus = false;
+        });
+      }
       else{
         setState(() {
           image = AssetImage("assets/user.png");
@@ -84,26 +84,24 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
     super.initState();
     getImage();
   }
-
   @override
   Widget build(BuildContext context) {
     final name = UserLoginData.displayName;
     final email = UserLoginData.username;
-
     return Drawer(
       child: Material(
         color: kPrimary,
         child: ListView(
           children: <Widget>[
             buildHeader(
-              image: image,
-              name: name,
-              onClicked: (){
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(builder: (BuildContext context) => Profile()));
-              },
-              status: imageStatus
+                image: image,
+                name: name,
+                onClicked: (){
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(builder: (BuildContext context) => Profile()));
+                },
+                status: imageStatus
               // onClicked: () => Navigator.of(context).push(MaterialPageRoute(
               //   builder: (context) => UserPage(
               //     name: 'Sarah Abs',
@@ -119,7 +117,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                     text: 'Home',
                     icon: FontAwesomeIcons.home,
                     onClicked: () {
-                      Navigator.pushNamedAndRemoveUntil(context, "/HomeScreen", (route) => false);
+                      Navigator.pushNamedAndRemoveUntil(context, "/DoctorHomeScreen", (route) => false);
                     },
                   ),
                   // const SizedBox(height: 16),
@@ -132,14 +130,9 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                   buildMenuItem(
                     text: 'My Appointments',
                     icon: FontAwesomeIcons.calendarCheck,
-                    onClicked: () => Navigator.pushNamed(context, "/MyAppointments"),
+                    onClicked: () => Navigator.pushNamed(context, "/DrAppointments"),
                   ),
-                  const SizedBox(height: 16),
-                  buildMenuItem(
-                    text: 'My Orders',
-                    icon: FontAwesomeIcons.luggageCart,
-                    onClicked: () => Navigator.pushNamed(context, "/MyOrders"),
-                  ),
+
                   const SizedBox(height: 24),
                   Divider(color: Colors.white70),
                   const SizedBox(height: 24),
@@ -190,7 +183,6 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
       ),
     );
   }
-
   Widget buildHeader({
     required bool status,
     required var image,
@@ -198,25 +190,24 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
     required VoidCallback onClicked,
   }) {
 
-      return InkWell(
-        onTap: onClicked,
-        child: Container(
-          padding: padding.add(EdgeInsets.symmetric(vertical: 40)),
-          child: Row(
-            children: [
-              status ? CircularProgressIndicator(color: kGeneralWhite,) : CircleAvatar(radius: 30, backgroundImage: image,),
-              SizedBox(width: 20),
-              Expanded(child: Text(name, style: authSubTextStyle1)),
-              CircleAvatar(
-                radius: 24,
-                backgroundColor: Color.fromRGBO(30, 60, 168, 1),
-                child: Icon(Icons.arrow_right, color: Colors.white),
-              )
-            ],
-          ),
+    return InkWell(
+      onTap: onClicked,
+      child: Container(
+        padding: padding.add(EdgeInsets.symmetric(vertical: 40)),
+        child: Row(
+          children: [
+            status ? CircularProgressIndicator(color: kGeneralWhite,) : CircleAvatar(radius: 30, backgroundImage: image,),
+            SizedBox(width: 20),
+            Expanded(child: Text(name, style: authSubTextStyle1)),
+            CircleAvatar(
+              radius: 24,
+              backgroundColor: Color.fromRGBO(30, 60, 168, 1),
+              child: Icon(Icons.arrow_right, color: Colors.white),
+            )
+          ],
         ),
-      );}
-
+      ),
+    );}
   Widget buildSearchField() {
     final color = Colors.white;
 
