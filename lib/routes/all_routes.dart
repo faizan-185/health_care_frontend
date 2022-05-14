@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:health_care/screens/appointments/accept_request.dart';
+import 'package:health_care/screens/appointments/conference_call.dart';
 import 'package:health_care/screens/appointments/my_appointments.dart';
 import 'package:health_care/screens/appointments/pending.dart';
 import 'package:health_care/screens/auth/profile.dart';
@@ -36,7 +37,8 @@ class Routes {
       '/MyOrders': (_) => MyOrders(),
       '/DoctorHomeScreen': (_) => DoctorHomeScreen(),
       '/PendingAppointments': (_) => Pending(),
-      '/DrAppointments': (_) => DrAppointments()
+      '/DrAppointments': (_) => DrAppointments(),
+      '/Meet': (_) => VideoCall()
     };
   }
 

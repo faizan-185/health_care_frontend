@@ -140,6 +140,12 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                     icon: FontAwesomeIcons.luggageCart,
                     onClicked: () => Navigator.pushNamed(context, "/MyOrders"),
                   ),
+                  const SizedBox(height: 16),
+                  buildMenuItem(
+                    text: 'Meet Now',
+                    icon: FontAwesomeIcons.video,
+                    onClicked: () => Navigator.pushNamed(context, "/Meet"),
+                  ),
                   const SizedBox(height: 24),
                   Divider(color: Colors.white70),
                   const SizedBox(height: 24),

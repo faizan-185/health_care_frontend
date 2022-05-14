@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:health_care/config/data_classes.dart';
 import 'package:health_care/config/styles.dart';
@@ -132,7 +131,12 @@ class _SecondDrawerState extends State<SecondDrawer> {
                     icon: FontAwesomeIcons.calendarCheck,
                     onClicked: () => Navigator.pushNamed(context, "/DrAppointments"),
                   ),
-
+                  const SizedBox(height: 16),
+                  buildMenuItem(
+                    text: 'Meet Now',
+                    icon: FontAwesomeIcons.video,
+                    onClicked: () => Navigator.pushNamed(context, "/Meet"),
+                  ),
                   const SizedBox(height: 24),
                   Divider(color: Colors.white70),
                   const SizedBox(height: 24),
