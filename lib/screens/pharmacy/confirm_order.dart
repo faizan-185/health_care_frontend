@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:health_care/logs/Log.dart';
 import 'package:health_care/models/MedicineOrder.dart';
+import 'package:health_care/models/Pharmacy.dart';
 import 'package:health_care/services/api_funtions/pharmacy_functions.dart';
 import 'package:health_care/widgets/appbar.dart';
 
+import '../../config/data_classes.dart';
 import '../../config/dimensions.dart';
 import '../../config/styles.dart';
 import '../../logs/db_helper.dart';
+import '../../services/api_funtions/password_reset_functions.dart';
 import '../../widgets/drawer.dart';
 import '../../widgets/snackbars.dart';
 import '../../widgets/verido-form-field.dart';
@@ -20,7 +23,8 @@ class ConfirmOrder extends StatefulWidget {
   String bill;
   String pharmacyId;
   String pname;
-  ConfirmOrder({Key? key, required this.orderList, required this.bill, required this.pharmacyId, required this.pname}) : super(key: key);
+  Pharmacy pharmacy;
+  ConfirmOrder({Key? key, required this.orderList, required this.bill, required this.pharmacyId, required this.pname, required this.pharmacy}) : super(key: key);
 
   @override
   State<ConfirmOrder> createState() => _ConfirmOrderState();
@@ -315,7 +319,7 @@ class _ConfirmOrderState extends State<ConfirmOrder> {
                         setState(() {
                           status = true;
                         });
-                        createOrder(widget.orderList, widget.pharmacyId, areaController.text, cityController.text, countryController.text, postalCodeController.text).then((response) {
+                        createOrder(widget.orderList, widget.pharmacyId, areaController.text, cityController.text, countryController.text, postalCodeController.text).then((response) async {
 
                           setState(() {
                             status = false;
@@ -323,6 +327,17 @@ class _ConfirmOrderState extends State<ConfirmOrder> {
                           var data = jsonDecode(response.body);
                           if(response.statusCode==200)
                           {
+                            await sendEmail(subject: "Order Request", to: UserLoginData.email, name: UserLoginData.displayName, message: "A new order request sent to Pharmacy:\n Pharmacy Name: ${widget.pname}\n, Pharmacy Phone Number: ${widget.pharmacy.user.phoneNumber}\n, Pharmacy Email: ${widget.pharmacy.user.email}").then((value) {
+                              print("ok");
+                              print(value.body);
+                            });
+                            await sendEmail(subject: "Order Request", to: widget.pharmacy.user.email, name: widget.pharmacy.user.displayName, message: "A new order request received from Customer:\n Customer Name: ${UserLoginData.displayName}\n , Customer Phone Number: ${UserLoginData.phone}\n,  Customer Email: ${UserLoginData.email}").then((value) {
+                              setState(() {
+                                print("okk");
+                                print(value.body);
+                                status = false;
+                              });
+                            });
                             ScaffoldMessenger.of(context).showSnackBar(snackBarSuccess(data['message']));
                             var handler = DatabaseHandler();
                             handler.initializeDB().whenComplete(() async {

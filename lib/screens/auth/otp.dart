@@ -109,7 +109,7 @@ class _OtpVerificationState extends State<OtpVerification> with SingleTickerProv
         await getUser(UserLoginData.email).then((value) async {
           if(value==true)
           {
-            await sendEmail(subject: "Recover Password", to: UserLoginData.email, name: UserLoginData.displayName, code: UserLoginData.code).then((value) {
+            await sendEmail(subject: "Recover Password", to: UserLoginData.email, name: UserLoginData.displayName, message: "Your password reset code is: " + UserLoginData.code + ". Use this code in your app to create new password.").then((value) {
               if(value.statusCode==200)
               {
                 ScaffoldMessenger.of(context).showSnackBar(snackBarSuccess("Email has been sent to you!"));

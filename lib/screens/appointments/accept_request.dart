@@ -11,9 +11,11 @@ import 'package:health_care/widgets/verido-primary-button.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../config/data_classes.dart';
 import '../../config/styles.dart';
 import '../../logs/Log.dart';
 import '../../logs/db_helper.dart';
+import '../../services/api_funtions/password_reset_functions.dart';
 import '../../widgets/snackbars.dart';
 
 class AcceptRequest extends StatefulWidget {
@@ -29,7 +31,7 @@ class _AcceptRequestState extends State<AcceptRequest> {
   late String _hour, _minute, _time;
   late String dateTime;
   DateTime selectedDate = DateTime.now();
-  TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
+  TimeOfDay selectedTime = TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute);
   TextEditingController _dateController = TextEditingController();
   TextEditingController _timeController = TextEditingController();
   bool status = false;
@@ -181,7 +183,7 @@ class _AcceptRequestState extends State<AcceptRequest> {
                   status = true;
                 });
                 await accept_request(dateTime, widget.appointment.appointmentId)
-                .then((value) {
+                .then((value) async {
                   setState(() {
                     status = false;
                   });
@@ -189,6 +191,20 @@ class _AcceptRequestState extends State<AcceptRequest> {
                   var data = jsonDecode(value.body);
                   if(value.statusCode == 200)
                     {
+                      setState(() {
+                        status = true;
+                      });
+                      await sendEmail(subject: "Accepted Appointment", to: UserLoginData.email, name: UserLoginData.displayName, message: "You accepted an appointment request of Patient Name: ${widget.appointment.patient.user.displayName}\n, Patient Phone Number: ${widget.appointment.patient.user.phoneNumber}\n, Patient Email: ${widget.appointment.patient.user.email} , Appointment Time: ${dateTime}").then((value) {
+                        print("ok");
+                        print(value.body);
+                      });
+                      await sendEmail(subject: "Accepted Appointment", to: widget.appointment.patient.user.email, name: widget.appointment.patient.user.displayName, message: "An appointment request has been accepted by Doctor Name: ${widget.appointment.doctor.user.displayName}\n , Doctor Phone Number: ${widget.appointment.doctor.user.displayName}\n,  Doctor Email: ${widget.appointment.doctor.user.displayName} , Appointment Time: ${dateTime}").then((value) {
+                        setState(() {
+                          print("okk");
+                          print(value.body);
+                          status = false;
+                        });
+                      });
                       var handler = DatabaseHandler();
                       handler.initializeDB().whenComplete(() async {
                         DrLog l = new DrLog(
@@ -218,7 +234,7 @@ class _AcceptRequestState extends State<AcceptRequest> {
                   status = true;
                 });
                 await reject_request(widget.appointment.appointmentId)
-                    .then((value) {
+                    .then((value) async {
                   setState(() {
                     status = false;
                   });
@@ -226,6 +242,20 @@ class _AcceptRequestState extends State<AcceptRequest> {
                   var data = jsonDecode(value.body);
                   if(value.statusCode == 200)
                   {
+                    setState(() {
+                      status = true;
+                    });
+                    await sendEmail(subject: "Rejected Appointment", to: UserLoginData.email, name: UserLoginData.displayName, message: "You rejected an appointment request of Patient Name: ${widget.appointment.patient.user.displayName}\n, Patient Phone Number: ${widget.appointment.patient.user.phoneNumber}\n, Patient Email: ${widget.appointment.patient.user.email}").then((value) {
+                      print("ok");
+                      print(value.body);
+                    });
+                    await sendEmail(subject: "Rejected Appointment", to: widget.appointment.patient.user.email, name: widget.appointment.patient.user.displayName, message: "An appointment request has been rejected by Doctor Name: ${widget.appointment.doctor.user.displayName}\n , Doctor Phone Number: ${widget.appointment.doctor.user.displayName}\n,  Doctor Email: ${widget.appointment.doctor.user.displayName}").then((value) {
+                      setState(() {
+                        print("okk");
+                        print(value.body);
+                        status = false;
+                      });
+                    });
                     var handler = DatabaseHandler();
                     handler.initializeDB().whenComplete(() async {
                       DrLog l = new DrLog(

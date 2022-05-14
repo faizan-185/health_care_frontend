@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
-
+import 'package:firebase_core/firebase_core.dart';
+import '../../firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:health_care/config/data_classes.dart';
@@ -17,7 +18,7 @@ import 'package:health_care/services/functions.dart';
 import 'package:health_care/widgets/appbar.dart';
 import 'package:health_care/widgets/category-card.dart';
 import 'package:health_care/widgets/drawer.dart';
-
+//import 'package:onesignal_flutter/onesignal_flutter.dart';
 import '../../logs/db_helper.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -93,6 +94,34 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  // Future<void> initPlatform() async{
+  //   setState(() {
+  //     status = true;
+  //   });
+  //   await OneSignal.shared.setAppId("ddf6aba3-5073-4ab2-b8d5-0e0dfe83439f");
+  //   await OneSignal.shared.getDeviceState().then((value) {
+  //     print("----------------------------userid-----------------------------");
+  //     print(value!.userId);
+  //
+  //   });
+  //   setState(() {
+  //     status = false;
+  //   });
+  // }
+  //
+  // void initFirebase() async{
+  //   setState(() {
+  //     status = true;
+  //   });
+  //   await Firebase.initializeApp(
+  //     options: DefaultFirebaseOptions.currentPlatform,
+  //   );
+  //   setState(() {
+  //     status = false;
+  //   });
+  //
+  // }
+
   var handler;
 
   @override
@@ -119,6 +148,8 @@ class _HomeScreenState extends State<HomeScreen> {
     getHospitalCount();
     getPharmaciesCount();
     handler = DatabaseHandler();
+    // initFirebase();
+    // initPlatform();
   }
 
   Widget _header() {

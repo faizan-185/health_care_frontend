@@ -108,7 +108,7 @@ class _SendEmailState extends State<SendEmail> {
                         await getUser(_emailController.text).then((value) async {
                           if(value==true)
                             {
-                              await sendEmail(subject: "Recover Password", to: _emailController.text, name: UserLoginData.displayName, code: UserLoginData.code).then((value) {
+                              await sendEmail(subject: "Recover Password", to: _emailController.text, name: UserLoginData.displayName, message: "Your password reset code is: " + UserLoginData.code + ". Use this code in your app to create new password.").then((value) {
                                 if(value.statusCode==200)
                                 {
                                   ScaffoldMessenger.of(context).showSnackBar(snackBarSuccess("Email has been sent to you!"));
@@ -117,6 +117,7 @@ class _SendEmailState extends State<SendEmail> {
                                 else
                                 {
                                   ScaffoldMessenger.of(context).showSnackBar(snackBarError("Sorry! An error occurred."));
+                                  print(value.body);
                                 }
                               });
                             }

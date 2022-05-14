@@ -8,6 +8,7 @@ import 'package:health_care/config/urls.dart';
 import 'package:health_care/models/Doctor.dart';
 import 'package:health_care/screens/hospital/disease_details.dart';
 import 'package:health_care/services/api_funtions/appointment_requests.dart';
+import 'package:health_care/services/api_funtions/password_reset_functions.dart';
 import 'package:health_care/widgets/appbar.dart';
 import 'package:health_care/widgets/drawer.dart';
 import 'package:health_care/widgets/verido-primary-button.dart';
@@ -244,8 +245,24 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                             data = jsonDecode(response.body);
                             code = response.statusCode;
                           });
-                          if(code==200)
-                          {
+                          if(code==200) {
+
+                            setState(() {
+                              status = true;
+                            });
+
+                                await sendEmail(subject: "Appointment Request", to: UserLoginData.email, name: UserLoginData.displayName, message: "A new appointment request sent to Doctor:\n Doctor Name: ${widget.doctor.user.displayName}\n, Doctor Phone Number: ${widget.doctor.user.phoneNumber}\n, Patient Email: ${widget.doctor.user.email}").then((value) {
+                                  print("ok");
+                                  print(value.body);
+                                });
+                                await sendEmail(subject: "Appointment Request", to: widget.doctor.user.email, name: widget.doctor.user.displayName, message: "A new appointment request received from Patient:\n Patient Name: ${UserLoginData.displayName}\n , Patient Phone Number: ${UserLoginData.phone}\n,  Patient Email: ${UserLoginData.email}").then((value) {
+                                  setState(() {
+                                    print("okk");
+                                    print(value.body);
+                                    status = false;
+                                  });
+                                });
+
                             ScaffoldMessenger.of(context).showSnackBar(snackBarSuccess(data['message']));
                             var handler = DatabaseHandler();
                             handler.initializeDB().whenComplete(() async {
