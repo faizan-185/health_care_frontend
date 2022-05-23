@@ -65,6 +65,7 @@ class _HospitalDetailsState extends State<HospitalDetails> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   Widget _header() {
     return SizedBox(width: screenSize.width, child: Text(widget.hospital.hospitalName, style: secondaryBigHeadingTextStyle));
+
   }
 
   @override

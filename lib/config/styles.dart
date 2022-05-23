@@ -84,6 +84,12 @@ TextStyle mainHeadingTextStyle = GoogleFonts.poppins(
   fontWeight: FontWeight.w600,
 );
 
+TextStyle mainHeadingTextStyle1 = GoogleFonts.poppins(
+  color: Colors.black,
+  fontSize: 20,
+  fontWeight: FontWeight.w600,
+);
+
 TextStyle secondaryHeadingTextStyle = GoogleFonts.poppins(
   color: kBackground,
   fontSize: 18,

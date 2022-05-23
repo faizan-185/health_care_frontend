@@ -5,6 +5,7 @@ import 'package:health_care/screens/appointments/my_appointments.dart';
 import 'package:health_care/screens/appointments/pending.dart';
 import 'package:health_care/screens/auth/profile.dart';
 import 'package:health_care/screens/home/second_home_screen.dart';
+import 'package:health_care/screens/home/third_home_screen.dart';
 import 'package:health_care/screens/hospital/all_hospitals_screen.dart';
 import 'package:health_care/routes/route.dart';
 import 'package:health_care/screens/auth/login.dart';
@@ -16,6 +17,8 @@ import 'package:health_care/screens/home/home_screen.dart';
 import 'package:health_care/screens/pharmacy/all_pharmacies.dart';
 import 'package:health_care/screens/pharmacy/my_orders.dart';
 import 'package:health_care/screens/pharmacy/pharmacy_details.dart';
+import 'package:health_care/screens/vendor/all_posts.dart';
+import 'package:health_care/screens/vendor/my_responses.dart';
 import 'package:health_care/screens/welcome/splash.dart';
 
 import '../screens/appointments/dr_appointments.dart';
@@ -38,7 +41,10 @@ class Routes {
       '/DoctorHomeScreen': (_) => DoctorHomeScreen(),
       '/PendingAppointments': (_) => Pending(),
       '/DrAppointments': (_) => DrAppointments(),
-      '/Meet': (_) => VideoCall()
+      '/Meet': (_) => VideoCall(),
+      '/VendorHomeScreen': (_) => VendorHomeScreen(),
+      '/AllPosts': (_) => AllPosts(),
+      '/MyResponses': (_) => MyResponses()
     };
   }
 
@@ -67,6 +73,12 @@ class Routes {
         return CustomRoute(builder: (BuildContext context)=> MyAppointments());
       case "AllPharmacies":
         return CustomRoute(builder: (BuildContext context)=> AllPharmacies());
+      case "VendorHomeScreen":
+        return CustomRoute(builder: (BuildContext context)=> VendorHomeScreen());
+      case "AllPosts":
+        return CustomRoute(builder: (BuildContext context)=> AllPosts());
+      case "MyResponses":
+        return CustomRoute(builder: (BuildContext context)=> MyResponses());
     }
   }
 }

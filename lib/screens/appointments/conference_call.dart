@@ -15,7 +15,7 @@ class _VideoCallState extends State<VideoCall> {
     agoraConnectionData: AgoraConnectionData(
       appId: "0b38227c07ae42f49a365c09b43aa742",
       channelName: "abc",
-      tempToken: "0060b38227c07ae42f49a365c09b43aa742IACKbw5sSWa+mDUAI4UcXMkZR5Kpe3UU7uyf8w/21vFhoMJBJDUAAAAAEAASVDxDsSGBYgEAAQCwIYFi"
+      tempToken: "0060b38227c07ae42f49a365c09b43aa742IACe548QuPeV+Rh42/tKE7vcwZiq9DPgGsqrPPl4bKa+5sJBJDUAAAAAEAASigVR61aNYgEAAQDrVo1i"
     ),
     enabledPermission: [
       Permission.camera,

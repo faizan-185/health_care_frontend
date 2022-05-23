@@ -72,3 +72,26 @@ Future<bool> validateDoctor(var userId) async
   });
   return stat;
 }
+
+Future<bool> validateVendor(var userId) async{
+  bool stat = false;
+  
+  await http.get(
+    Uri.parse(Urls.baseUrl + Urls.getAllRolesForUser + userId),
+    headers: jsonHeaderWithAuth,
+  ).then((response) {
+    if(response.statusCode == 200)
+    {
+      var data = jsonDecode(response.body);
+      data = data['userAccessRole'];
+      for(var element in data){
+        if(element['Role']['description'] == "Vendor")
+          {
+            stat = true;
+            break;
+          }
+      }
+    }
+  });
+  return stat;
+}

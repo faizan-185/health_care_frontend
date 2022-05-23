@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:health_care/config/dimensions.dart';
 import 'package:health_care/config/styles.dart';
+import 'package:health_care/config/urls.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class HospitalCard extends StatefulWidget {
@@ -47,7 +48,7 @@ class _HospitalCardState extends State<HospitalCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CircleAvatar(
-                    backgroundImage: NetworkImage(widget.image),
+                    backgroundImage: NetworkImage(Urls.baseUrl + widget.image),
                     radius: 40,
                   ),
                   SizedBox(width: 15,),
